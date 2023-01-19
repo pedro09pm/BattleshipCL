@@ -11,8 +11,8 @@ public class Player {
     protected ArrayList<BoardView> boardViews = new ArrayList<>();
     private String name;
     
-    public Player(String name, boolean RENDER_COLORS) {
-        this.board = new Board(name, RENDER_COLORS);
+    public Player(String name, boolean RENDER_COLORS, String boardColor) {
+        this.board = new Board(name, RENDER_COLORS, boardColor);
         this.name = name;
     }
 
@@ -50,24 +50,31 @@ public class Player {
                     System.out.println(boardString);
                     TerminalUtils.moveCursorUp(3);
                     TerminalUtils.moveCursorForward(26);
+                    boardString = boardViews.get(turnNumber).formatBoardWithStatistics(" ENTER TO CONITNUE: \n ", RENDER_COLORS);
                 } else {
                     boardString = boardViews.get(turnNumber).formatBoardWithStatistics(" ENTER FIRE COORDINATES: ", RENDER_COLORS);
                     System.out.println(boardString);
                     TerminalUtils.moveCursorUp(2);
                     TerminalUtils.moveCursorForward(26);
+                    boardString = boardViews.get(turnNumber).formatBoardWithStatistics(" ENTER TO CONITNUE: ", RENDER_COLORS);
                 }
     
-                shoot(boardViews.get(turnNumber), inputValue);
+                shoot(boardViews.get(turnNumber), inputValue,2,21);
             
             }
 
+            
+
             TerminalUtils.cls();
-            boardString = boardViews.get(turnNumber).formatBoardWithStatistics(" ENTER TO CONITNUE: ", RENDER_COLORS);
             System.out.println(boardString);
-            TerminalUtils.moveCursorUp(2);
+            if (showShotsLeft) {
+                TerminalUtils.moveCursorUp(3);
+            } else {
+                TerminalUtils.moveCursorUp(2);
+            }
             TerminalUtils.moveCursorForward(21);
             inputValue.nextLine();
-            TerminalUtils.cls();
+            //TerminalUtils.cls();
 
         }
     }
@@ -84,7 +91,7 @@ public class Player {
         TerminalUtils.cls();
     }
 
-    public static Boolean shoot(BoardView board, Scanner inputValue) {
+    public static Boolean shoot(BoardView board, Scanner inputValue, int lineUp, int charForward) {
         
         String userInput = "";
         int row = 0;
@@ -93,6 +100,8 @@ public class Player {
         while (true) {
 
             userInput = inputValue.nextLine();
+            TerminalUtils.moveCursorUp(lineUp);
+            TerminalUtils.moveCursorForward(charForward);
 
             if (userInput.equalsIgnoreCase("dev_r")) { // Ruins the fun for the players. Makes life easy for developers...
                 board.revealAll();

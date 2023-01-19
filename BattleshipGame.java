@@ -54,7 +54,18 @@ public class BattleshipGame {
     private static final int CLASSIC_MODE_SHOT_COUNT = 30;
     private static final int CPU_MODE_BOARD_SIZE = 10;
 
-    private static final Ship[] CLASSIC_MODE_FLEET = new Ship[10];
+    private static final Ship[] CLASSIC_MODE_FLEET = new Ship[] {
+                                                                new Ship(1,1),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1)
+                                                            };
     private static final Ship[] CPU_MODE_FLEET = new Ship[] {
 
                                                                 new Ship(1,4),
@@ -183,12 +194,14 @@ public class BattleshipGame {
         /* In classic mode you only see the enemy board. It's implemented in
         a way that you actually shoot the board you're controlling. */
 
-        Player player = new Player("ENEMY", RENDER_COLORS);
+        String playerColor = NO_COLOR_DEFAULT;
+
         if (RENDER_COLORS) {
-            if (!askUserForConfirmation("· Use default board color? [Y/N]: ")) {
-                    player.getBoard().setBoardColor(chooseColor());
-            }
+            playerColor = ConsoleColors.RED;
         }
+
+        Player player = new Player(new Board("ENEMY FLEET", RENDER_COLORS, playerColor), RENDER_COLORS);
+
         player.addBoardView(new BoardView(player.getBoard(), CLASSIC_MODE_SHOT_COUNT));
 
         placeShips(player.getBoard(), CLASSIC_MODE_FLEET);
@@ -200,14 +213,14 @@ public class BattleshipGame {
                 break;
             }
 
-            if(player.getBoardViews().get(0).getShotsLeft() == 0) {
+            if(player.getBoardViews().get(0).getShotsLeft() == 0 ) {
                 showDefeat();
                 break;
             }
 
             TerminalUtils.cls();
             player.doTurn(inputValue, RENDER_COLORS, true);
-
+        
         }
 
     }
@@ -271,6 +284,7 @@ public class BattleshipGame {
         while (!allShipsPlaced) {
 
             allShipsPlaced = true;
+            System.gc();
 
             for (Ship i: ships) { // Reset for next try.
                 i.setPlaced(false);

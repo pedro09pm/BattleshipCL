@@ -3,7 +3,7 @@
 public class EnemyAI extends Player{
     
     public EnemyAI(String name, boolean RENDER_COLORS) {
-        super(name, RENDER_COLORS);
+        super(name, RENDER_COLORS, "");
     }
 
     public EnemyAI(Board board, boolean RENDER_COLORS) {

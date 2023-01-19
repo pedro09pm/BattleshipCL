@@ -20,11 +20,11 @@ public class Board {
     protected Cell[][] cells;
     private ArrayList<Ship> ships = new ArrayList<Ship>();
 
-    public Board(String boardName, boolean colorizeCells) {
+    public Board(String boardName, boolean colorizeCells, String boardColor) {
         this.cells = new Cell[MIN_ROWS][MIN_COLUMNS]; // Row, Column.
         this.boardName = boardName;
         this.colorizeCells = colorizeCells;
-        this.boardColor = ConsoleColors.WHITE;
+        this.boardColor = boardColor;
         populateCells();
     }
 
@@ -148,7 +148,7 @@ public class Board {
                 ship.setColumn(column);
                 ship.setPlaced(true);
 
-                System.out.println("Placed on board " + boardName + " ship h" + ship.getHeight() + " w " + ship.getWidth() + " row " + row + " col " + column);
+                //System.out.println("Placed on board " + boardName + " ship h" + ship.getHeight() + " w " + ship.getWidth() + " row " + row + " col " + column);
     
             }
     
@@ -183,7 +183,6 @@ public class Board {
     }
     
     public boolean isShipAlive(Ship ship) {
-        ships.add(ship);
         for (int i = 0; i < ship.getHeight(); i++) {
             for (int j = 0; j < ship.getWidth(); j++) {
                 if (isShipCell(ship.getRow() + i, ship.getColumn() + j)) {
@@ -224,7 +223,14 @@ public class Board {
     }
 
     public int getAliveShipNumber() {
-        return ships.size();
+        
+        int shipAliveNumber = 0;
+
+        for (int i = 0; i < ships.size(); i++) {
+            if (isShipAlive(ships.get(i))) {shipAliveNumber++;}
+        }
+
+        return shipAliveNumber;
     }
 
     public String getBoardName() {
