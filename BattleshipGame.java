@@ -73,7 +73,6 @@ public class BattleshipGame {
 
     public static void main(String[] args) {
         TerminalUtils.hideCursor();
-        playAgainstCPU();
         playClassic();
         showTitle();
         menu(); // <-- HAS A WHILE (TRUE) LOOP, MAIN PROGRAM LOOP IS HERE.
