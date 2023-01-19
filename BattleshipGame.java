@@ -1,10 +1,10 @@
-import java.util.Scanner;
-
-import Utils.*;
-
 // 13/01/2023 - Pedro Marín Sanchis
 
 // BATTLESHIP COMMAND-LINE EDITION V0
+
+import java.util.Scanner;
+
+import Utils.*;
 
 public class BattleshipGame {
 
@@ -30,7 +30,7 @@ public class BattleshipGame {
                                                     "|_____/|______|_|    |______/_/    \\_\\_(_|_|_)   \n"+
                                                     "\n         ";
     private static final String GOODBYE_TEXT = "\n"+
-                                                    " _______ _                 _                                    \n"+
+                                                    " _______ _                 _                                   \n"+
                                                     "|__   __| |               | |                                  \n"+
                                                     "   | |  | |__   __ _ _ __ | | __  _   _  ___  _   _            \n"+
                                                     "   | |  | '_ \\ / _` | '_ \\| |/ / | | | |/ _ \\| | | |        \n"+
@@ -47,12 +47,29 @@ public class BattleshipGame {
                                                     "\n                Press ENTER to quit:";                                               
                                                                                                 
                                                 
-    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
     private static Scanner inputValue = new Scanner(System.in);
     private static final boolean RENDER_COLORS = true;
+    private static final String NO_COLOR_DEFAULT = "";
 
     private static final int CLASSIC_MODE_SHOT_COUNT = 30;
-    private static final int CLASSIC_MODE_SHIP_AMMOUNT = 10;
+    private static final int CPU_MODE_BOARD_SIZE = 10;
+
+    private static final Ship[] CLASSIC_MODE_FLEET = new Ship[10];
+    private static final Ship[] CPU_MODE_FLEET = new Ship[] {
+
+                                                                new Ship(1,4),
+                                                                new Ship(1,4),
+                                                                new Ship(1,3),
+                                                                new Ship(1,3),
+                                                                new Ship(1,2),
+                                                                new Ship(1,2),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1),
+                                                                new Ship(1,1)
+
+                                                            };
+
 
     public static void main(String[] args) {
         TerminalUtils.hideCursor();
@@ -170,12 +187,12 @@ public class BattleshipGame {
         Player player = new Player("ENEMY", RENDER_COLORS);
         if (RENDER_COLORS) {
             if (!askUserForConfirmation("· Use default board color? [Y/N]: ")) {
-                    player.getBoard().setBoardColor(choseColor());
+                    player.getBoard().setBoardColor(chooseColor());
             }
         }
         player.addBoardView(new BoardView(player.getBoard(), CLASSIC_MODE_SHOT_COUNT));
 
-        placeShipsClassic(player.getBoard());
+        placeShips(player.getBoard(), CLASSIC_MODE_FLEET);
 
         while (true) {
 
@@ -184,31 +201,13 @@ public class BattleshipGame {
                 break;
             }
 
-            if(player.getBoard().getAliveShipNumber() != 0 && player.getBoardViews().get(0).getShotsLeft() == 0) {
+            if(player.getBoardViews().get(0).getShotsLeft() == 0) {
                 showDefeat();
                 break;
             }
 
             TerminalUtils.cls();
-            player.doTurn(inputValue, RENDER_COLORS);
-
-        }
-
-    }
-
-    private static void placeShipsClassic(Board board) {
-
-        int rowNumber = board.getRowNumber();
-        int columnNumber = board.getColumnNumber();
-
-        int row;
-        int column;
-
-        while (board.getAliveShipNumber() != CLASSIC_MODE_SHIP_AMMOUNT) {
-
-            row = (int) (Math.random()*(rowNumber));
-            column = (int) (Math.random()*(columnNumber));
-            board.addShip(new Ship(), row, column);
+            player.doTurn(inputValue, RENDER_COLORS, true);
 
         }
 
@@ -216,21 +215,25 @@ public class BattleshipGame {
 
     private static void playAgainstCPU() {
 
-        Player player = new Player("ENEMY", RENDER_COLORS);
+        String playerColor = NO_COLOR_DEFAULT;
+        String enemyColor = NO_COLOR_DEFAULT;
+
         if (RENDER_COLORS) {
             if (!askUserForConfirmation("· Use default board color? [Y/N]: ")) {
-                    player.getBoard().setBoardColor(choseColor());
+                    playerColor = chooseColor();
+                    enemyColor = ConsoleColors.RED;
             }
         }
 
-        Player enemy = new Player("ENEMY", RENDER_COLORS);
+        Player player = new Player(new Board(CPU_MODE_BOARD_SIZE, CPU_MODE_BOARD_SIZE, "YOUR FLEET", RENDER_COLORS, playerColor), RENDER_COLORS);
+        EnemyAI enemy = new EnemyAI(new Board(CPU_MODE_BOARD_SIZE, CPU_MODE_BOARD_SIZE, "ENEMY FLEET", RENDER_COLORS, enemyColor), RENDER_COLORS);
         enemy.getBoard().setBoardColor(ConsoleColors.RED);
 
         player.addBoardView(new BoardView(enemy.getBoard(), 9999));
         enemy.addBoardView(new BoardView(player.getBoard(), 9999));
 
-        placeShipsClassic(player.getBoard());
-        placeShipsClassic(enemy.getBoard());
+        placeShips(player.getBoard(), CPU_MODE_FLEET);
+        placeShips(enemy.getBoard(), CPU_MODE_FLEET);
 
         while (true) {
 
@@ -239,20 +242,81 @@ public class BattleshipGame {
                 break;
             }
 
-            if(enemy.getBoard().getAliveShipNumber() != 0 && player.getBoardViews().get(0).getShotsLeft() == 0) {
+            if(player.getBoard().getAliveShipNumber() == 0) {
                 showDefeat();
                 break;
             }
 
             TerminalUtils.cls();
-            player.doTurn(inputValue, RENDER_COLORS);
-            enemy.doTurn(inputValue, RENDER_COLORS);
+            player.showBoard(inputValue, RENDER_COLORS);
+            player.doTurn(inputValue, RENDER_COLORS, false);
+            enemy.doTurn();
 
         }
 
     }
 
-    private static String choseColor() {
+    private static void placeShips(Board board, Ship[] ships) {
+        int rowNumber = board.getRowNumber();
+        int columnNumber = board.getColumnNumber();
+        int row;
+        int column;
+        boolean rotate;
+
+        int allowedTries = 100;
+
+        ships = cloneShipArray(ships);
+        
+        boolean allShipsPlaced = false;
+
+        while (!allShipsPlaced) {
+
+            allShipsPlaced = true;
+
+            for (Ship i: ships) { // Reset for next try.
+                i.setPlaced(false);
+                board.removeShip(i);
+            }
+
+            for (Ship i: ships) {
+                for(int j = 0; j < allowedTries; j++) {
+
+                    rotate = (Math.random()) > 0.5; // Boolean condition to rotate ships.
+
+                    if (rotate) {i.rotate();}
+
+                    row = (int) (Math.random()*(rowNumber));
+                    column = (int) (Math.random()*(columnNumber));
+                    board.addShip(i, row, column);
+
+                }
+            }
+
+            for (Ship i: ships) {
+                
+                if (!i.isPlaced()) {
+
+                    allShipsPlaced = false;
+
+                }
+
+            }
+        }
+    }
+
+    private static Ship[] cloneShipArray(Ship[] ships) {
+
+        Ship[] shipsClone = new Ship[ships.length];
+
+        for (int i = 0; i < ships.length; i++) {
+            shipsClone[i] = ships[i].clone();
+        }
+
+        return shipsClone;
+
+    }
+
+    private static String chooseColor() {
         while (true) {
             
             TerminalUtils.cls();
@@ -293,8 +357,6 @@ public class BattleshipGame {
                     return ConsoleColors.WHITE;
 
             }
-
         }
     }
-
 }

@@ -121,35 +121,67 @@ public class Board {
     }
 
     public boolean addShip(Ship ship, int row, int column) {
-        boolean canAddShip = true;
         
-        for (int i = 0; i < ship.getHeight(); i++) {
-            for (int j = 0; j < ship.getWidth(); j++) {
-                if (!canPlaceShipCell(row + i, column + j)) {
-                    canAddShip = false;
-                }
-            }
-        }
+        boolean canAddShip = true;
 
-        if (canAddShip) {
-            
-            ships.add(ship);
-            for (int i = 0; i < ship.getHeight(); i++) { 
+        if (!ship.isPlaced()) {
+
+            for (int i = 0; i < ship.getHeight(); i++) {
                 for (int j = 0; j < ship.getWidth(); j++) {
-                    cells[row + i][column + j].setCellType(Cell.CellType.SHIP);
-                    placeSafezone(row + i, column + j);
+                    if (!canPlaceShipCell(row + i, column + j)) {
+                        canAddShip = false;
+                    }
                 }
             }
+    
+            if (canAddShip) {
+                
+                ships.add(ship);
+                for (int i = 0; i < ship.getHeight(); i++) { 
+                    for (int j = 0; j < ship.getWidth(); j++) {
+                        cells[row + i][column + j].setCellType(Cell.CellType.SHIP);
+                        safezone(row + i, column + j, true);
+                    }
+                }
+    
+                ship.setRow(row);
+                ship.setColumn(column);
+                ship.setPlaced(true);
 
-            ship.setRow(row);
-            ship.setColumn(column);
+                System.out.println("Placed on board " + boardName + " ship h" + ship.getHeight() + " w " + ship.getWidth() + " row " + row + " col " + column);
+    
+            }
+    
+            return canAddShip;
+
+        } else {
+
+            return false;
 
         }
-
-        return canAddShip;
     
     }
 
+    public void removeShip(Ship ship) {
+
+        if (ships.contains(ship)) {
+
+            int row = ship.getRow();
+            int column = ship.getColumn();
+    
+            for (int i = 0; i < ship.getHeight(); i++) { 
+                for (int j = 0; j < ship.getWidth(); j++) {
+                    cells[row + i][column + j].setCellType(Cell.CellType.EMPTY);
+                    safezone(row + i, column + j, false);
+                }
+            }
+    
+            ships.remove(ship);
+            
+        }
+
+    }
+    
     public boolean isShipAlive(Ship ship) {
         ships.add(ship);
         for (int i = 0; i < ship.getHeight(); i++) {
@@ -166,18 +198,24 @@ public class Board {
         if (row >= getRowNumber() || column >= getColumnNumber()) {
             return false;
         } else {
-            return (!cells[row][column].isSafezone());
+            return (cells[row][column].canPlaceShip());
         }
     }
 
-    public void placeSafezone(int row, int column) {
+    public void safezone(int row, int column, boolean place) {
         row--; // Move to upper left corner
         column--;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 try {
-                    if (!cells[row+i][column+j].isShip()) {
-                        cells[row+i][column+j].setCellType(Cell.CellType.SAFETY);
+                    if (place) {
+                        if (!cells[row+i][column+j].isShip()) {
+                            cells[row+i][column+j].setCellType(Cell.CellType.SAFETY);
+                        }
+                    } else {
+                        if (cells[row+i][column+j].isSafezone()) {
+                            cells[row+i][column+j].setCellType(Cell.CellType.EMPTY);
+                        }
                     }
                 } catch (Exception e) {
                 }
@@ -186,15 +224,7 @@ public class Board {
     }
 
     public int getAliveShipNumber() {
-        int shipCells = 0;
-
-        for (int i = 0; i < cells.length; i++) {
-            for (int j = 0; j < cells[0].length; j++) {
-                if (isShipCell(i, j)) {shipCells++;}
-            }
-        }
-
-        return shipCells;
+        return ships.size();
     }
 
     public String getBoardName() {

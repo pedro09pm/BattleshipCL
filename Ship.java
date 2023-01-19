@@ -2,7 +2,7 @@
 
 public class Ship {
     
-    private boolean placed;
+    private boolean placed = false;
     private int height;
     private int width;
 
@@ -15,8 +15,15 @@ public class Ship {
     }
 
     public Ship(int height, int width) {
+        if (height <= 0) {height = 1;}
+        if (width <= 0) {width = 1;}
+
         this.height = height;
         this.width = width;
+    }
+
+    public Ship clone() {
+        return new Ship(height, width);
     }
 
     public int getHeight() {
@@ -38,6 +45,10 @@ public class Ship {
 
     public boolean isPlaced() {
         return placed;
+    }
+
+    public void setPlaced(Boolean placed) {
+        this.placed = placed;
     }
 
     public int getRow() {

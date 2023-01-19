@@ -10,7 +10,7 @@ public class Cell {
         EMPTY(" · ", ConsoleColors.GREY_8),
         MISS(" X ", ConsoleColors.WHITE),
         HIT("▓╬▓", ConsoleColors.WHITE),
-        SAFETY(" = ",  ConsoleColors.WHITE);
+        SAFETY(" · ",  ConsoleColors.WHITE);
 
         private final String cellString;
         private final String color;
@@ -64,6 +64,14 @@ public class Cell {
 
     public boolean isSafezone() {
         return (type == CellType.SAFETY);
+    }
+
+    public boolean isSea() {
+        return (type == CellType.EMPTY || type == CellType.SAFETY);
+    }
+
+    public boolean canPlaceShip() {
+        return (!(type == CellType.SHIP || type == CellType.SAFETY));
     }
 
 }

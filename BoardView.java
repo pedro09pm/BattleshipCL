@@ -15,7 +15,7 @@ public class BoardView extends Board {
     
     private int shotsMade;
     private int shotsHit;
-    private int shotsLeft = 999999;
+    private int shotsLeft;
 
     public BoardView(Board oriniginalBoard, int shotNumber) {
         super(oriniginalBoard.getRowNumber(), oriniginalBoard.getColumnNumber(), oriniginalBoard.getBoardName(),
@@ -34,16 +34,24 @@ public class BoardView extends Board {
             shotsHit++;
             return true;
 
-        } else {
-            if (!cells[row][column].isHitShip())
-            cells[row][column].setCellType(Cell.CellType.MISS);
+        }
+        
+        if (cells[row][column].isHitShip()) {
+            cells[row][column].setCellType(Cell.CellType.HIT);
             shotsMade++;
-            shotsLeft--; // Only lose a shot when you miss.
             return false;
         }
+
+        if (cells[row][column].isSea()) {
+            cells[row][column].setCellType(Cell.CellType.MISS);
+            originalBoard.cells[row][column].setCellType(Cell.CellType.MISS);
+            shotsLeft--; // Only lose a shot when you miss.
+            shotsMade++;
+        }
+        return false;
     }
 
-    public void revealAllCheat() { // Reveals all cells and ruins the fun.
+    public void revealAll() { // Reveals all cells and ruins the fun.
         for (int i = 0; i < getRowNumber(); i++) {
             for (int j = 0; j < getColumnNumber(); j++) {
                 cells[i][j].setCellType(originalBoard.cells[i][j].getCellType());
@@ -78,15 +86,19 @@ public class BoardView extends Board {
                         (message).split("\n"), ' '), " ".repeat(fireStringPadding))));
 
         boardString = boardString + "\n" + fireString;
-        
-        if (RENDER_COLORS) { // Colorize
-            boardString = colorize(super.boardColor + boardString + ConsoleColors.RESET);
-        }
 
-        boardString = addStatisticsToBoardString(boardString);
+        if (RENDER_COLORS) { // Colorize
+            boardString = colorize(originalBoard.boardColor + boardString + ConsoleColors.RESET);
+        }
 
         return boardString;
 
+    }
+
+    public String formatBoardWithStatistics(String message, boolean RENDER_COLORS) {
+
+        return addStatisticsToBoardString(formatBoard(message, RENDER_COLORS));
+    
     }
 
     private String addStatisticsToBoardString(String boardString) {
