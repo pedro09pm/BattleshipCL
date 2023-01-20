@@ -43,6 +43,8 @@ public class Player {
 
         for (int turnNumber = 0; turnNumber < boardViews.size(); turnNumber++) {
 
+            TerminalUtils.cls();
+
             if (boardViews.get(turnNumber).getShotsLeft() > 0) {
 
                 if (showShotsLeft) {
@@ -50,20 +52,18 @@ public class Player {
                     System.out.println(boardString);
                     TerminalUtils.moveCursorUp(3);
                     TerminalUtils.moveCursorForward(26);
-                    boardString = boardViews.get(turnNumber).formatBoardWithStatistics(" ENTER TO CONITNUE: \n ", RENDER_COLORS);
+                    shoot(boardViews.get(turnNumber), inputValue);
+                    boardString = boardViews.get(turnNumber).formatBoardWithStatistics(" ENTER TO CONTINUE:\n SHOTS LEFT: " + boardViews.get(turnNumber).getShotsLeft(), RENDER_COLORS);
                 } else {
                     boardString = boardViews.get(turnNumber).formatBoardWithStatistics(" ENTER FIRE COORDINATES: ", RENDER_COLORS);
                     System.out.println(boardString);
                     TerminalUtils.moveCursorUp(2);
                     TerminalUtils.moveCursorForward(26);
+                    shoot(boardViews.get(turnNumber), inputValue);
                     boardString = boardViews.get(turnNumber).formatBoardWithStatistics(" ENTER TO CONITNUE: ", RENDER_COLORS);
                 }
-    
-                shoot(boardViews.get(turnNumber), inputValue,2,21);
             
             }
-
-            
 
             TerminalUtils.cls();
             System.out.println(boardString);
@@ -74,7 +74,7 @@ public class Player {
             }
             TerminalUtils.moveCursorForward(21);
             inputValue.nextLine();
-            //TerminalUtils.cls();
+            TerminalUtils.cls();
 
         }
     }
@@ -91,17 +91,17 @@ public class Player {
         TerminalUtils.cls();
     }
 
-    public static Boolean shoot(BoardView board, Scanner inputValue, int lineUp, int charForward) {
+    public static Boolean shoot(BoardView board, Scanner inputValue) {
         
         String userInput = "";
         int row = 0;
         int column = 0;
 
+        
+
         while (true) {
 
             userInput = inputValue.nextLine();
-            TerminalUtils.moveCursorUp(lineUp);
-            TerminalUtils.moveCursorForward(charForward);
 
             if (userInput.equalsIgnoreCase("dev_r")) { // Ruins the fun for the players. Makes life easy for developers...
                 board.revealAll();

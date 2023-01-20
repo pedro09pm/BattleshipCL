@@ -51,6 +51,7 @@ public class BattleshipGame {
     private static final boolean RENDER_COLORS = true;
     private static final String NO_COLOR_DEFAULT = "";
 
+    private static final int CLASSIC_MODE_BOARD_SIZE = 8;
     private static final int CLASSIC_MODE_SHOT_COUNT = 30;
     private static final int CPU_MODE_BOARD_SIZE = 10;
 
@@ -67,7 +68,6 @@ public class BattleshipGame {
                                                                 new Ship(1,1)
                                                             };
     private static final Ship[] CPU_MODE_FLEET = new Ship[] {
-
                                                                 new Ship(1,4),
                                                                 new Ship(1,4),
                                                                 new Ship(1,3),
@@ -78,13 +78,11 @@ public class BattleshipGame {
                                                                 new Ship(1,1),
                                                                 new Ship(1,1),
                                                                 new Ship(1,1)
-
                                                             };
 
 
     public static void main(String[] args) {
         TerminalUtils.hideCursor();
-        playClassic();
         showTitle();
         menu(); // <-- HAS A WHILE (TRUE) LOOP, MAIN PROGRAM LOOP IS HERE.
     }
@@ -154,12 +152,12 @@ public class BattleshipGame {
             switch(inputValue.nextLine()) {
                 case "1":
                     showLegend();
-                    playClassic();
+                    playSingleplayer(true);
                     break;
     
                 case "2":
                     showLegend();
-                    playAgainstCPU();
+                    playSingleplayer(false);
                     break;
             
                 case "3":
@@ -189,63 +187,36 @@ public class BattleshipGame {
         TerminalUtils.moveCursorBack(11);
     }
 
-    private static void playClassic() {
-
-        /* In classic mode you only see the enemy board. It's implemented in
-        a way that you actually shoot the board you're controlling. */
-
-        String playerColor = NO_COLOR_DEFAULT;
-
-        if (RENDER_COLORS) {
-            playerColor = ConsoleColors.RED;
-        }
-
-        Player player = new Player(new Board("ENEMY FLEET", RENDER_COLORS, playerColor), RENDER_COLORS);
-
-        player.addBoardView(new BoardView(player.getBoard(), CLASSIC_MODE_SHOT_COUNT));
-
-        placeShips(player.getBoard(), CLASSIC_MODE_FLEET);
-
-        while (true) {
-
-            if(player.getBoard().getAliveShipNumber() == 0) {
-                showVictory();
-                break;
-            }
-
-            if(player.getBoardViews().get(0).getShotsLeft() == 0 ) {
-                showDefeat();
-                break;
-            }
-
-            TerminalUtils.cls();
-            player.doTurn(inputValue, RENDER_COLORS, true);
-        
-        }
-
-    }
-
-    private static void playAgainstCPU() {
+    private static void playSingleplayer(boolean classicMode) {
 
         String playerColor = NO_COLOR_DEFAULT;
         String enemyColor = NO_COLOR_DEFAULT;
+        int boardSize = CPU_MODE_BOARD_SIZE;
+        int shotNumber = 9999;
+        Ship[] fleet = CPU_MODE_FLEET;
 
-        if (RENDER_COLORS) {
+        if (RENDER_COLORS && !classicMode) {
             if (!askUserForConfirmation("· Use default board color? [Y/N]: ")) {
                     playerColor = chooseColor();
                     enemyColor = ConsoleColors.RED;
             }
         }
 
-        Player player = new Player(new Board(CPU_MODE_BOARD_SIZE, CPU_MODE_BOARD_SIZE, "YOUR FLEET", RENDER_COLORS, playerColor), RENDER_COLORS);
-        EnemyAI enemy = new EnemyAI(new Board(CPU_MODE_BOARD_SIZE, CPU_MODE_BOARD_SIZE, "ENEMY FLEET", RENDER_COLORS, enemyColor), RENDER_COLORS);
+        if (classicMode) {
+            fleet = CLASSIC_MODE_FLEET;
+            boardSize = CLASSIC_MODE_BOARD_SIZE;
+            shotNumber = CLASSIC_MODE_SHOT_COUNT;
+        }
+
+        Player player = new Player(new Board(boardSize, boardSize, "YOUR FLEET", RENDER_COLORS, playerColor), RENDER_COLORS);
+        EnemyAI enemy = new EnemyAI(new Board(boardSize, boardSize, "ENEMY FLEET", RENDER_COLORS, enemyColor), RENDER_COLORS);
         enemy.getBoard().setBoardColor(ConsoleColors.RED);
 
-        player.addBoardView(new BoardView(enemy.getBoard(), 9999));
-        enemy.addBoardView(new BoardView(player.getBoard(), 9999));
+        player.addBoardView(new BoardView(enemy.getBoard(), shotNumber));
+        enemy.addBoardView(new BoardView(player.getBoard(), shotNumber));
 
-        placeShips(player.getBoard(), CPU_MODE_FLEET);
-        placeShips(enemy.getBoard(), CPU_MODE_FLEET);
+        placeShips(player.getBoard(), fleet);
+        placeShips(enemy.getBoard(), fleet);
 
         while (true) {
 
@@ -254,15 +225,19 @@ public class BattleshipGame {
                 break;
             }
 
-            if(player.getBoard().getAliveShipNumber() == 0) {
+            if(player.getBoardViews().get(0).getShotsLeft() == 0) {
                 showDefeat();
                 break;
             }
 
             TerminalUtils.cls();
-            player.showBoard(inputValue, RENDER_COLORS);
-            player.doTurn(inputValue, RENDER_COLORS, false);
-            enemy.doTurn();
+            if (classicMode) {
+                player.doTurn(inputValue, RENDER_COLORS, true);
+            } else {
+                player.showBoard(inputValue, RENDER_COLORS);
+                player.doTurn(inputValue, RENDER_COLORS, false);
+                enemy.doTurn();
+            }
 
         }
 

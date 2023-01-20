@@ -25,6 +25,9 @@ public class BoardView extends Board {
     }
 
     public boolean revealCell(int row, int column) { // Updates view and updates original if it is populated (With a SHIP cell)
+
+        shotsLeft--;
+
         if (originalBoard.isShipCell(row, column)) {
 
             cells[row][column].setCellType(Cell.CellType.HIT); // Set this cell to HIT cell.
@@ -45,7 +48,6 @@ public class BoardView extends Board {
         if (cells[row][column].isSea()) {
             cells[row][column].setCellType(Cell.CellType.MISS);
             originalBoard.cells[row][column].setCellType(Cell.CellType.MISS);
-            shotsLeft--; // Only lose a shot when you miss.
             shotsMade++;
         }
         return false;

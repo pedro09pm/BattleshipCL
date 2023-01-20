@@ -36,7 +36,8 @@ public class TerminalUtils {
     }
 
     public static void cls() {
-        System.out.print("\033[2J");
+        //System.out.print("\033[2J");
+        System.out.println("\n\n\n\n".repeat(10));
     }
 
     public static void clsFromCursorToEnd() {
