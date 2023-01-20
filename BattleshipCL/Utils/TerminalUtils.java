@@ -2,7 +2,7 @@
 
 // ASCII Control Characters for Terminal Output Formatting
 
-package Utils;
+package BattleshipCL.Utils;
 
 public class TerminalUtils {
 

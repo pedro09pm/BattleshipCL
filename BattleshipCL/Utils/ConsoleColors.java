@@ -2,7 +2,7 @@
 
 // Source: https://www.w3schools.blog/ansi-colors-java
 
-package Utils;
+package BattleshipCL.Utils;
 
 public class ConsoleColors {
     // Reset

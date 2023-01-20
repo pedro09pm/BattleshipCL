@@ -1,6 +1,6 @@
 // 13/01/2023 - Pedro Marín Sanchis
 
-package Utils;
+package BattleshipCL.Utils;
 
 import java.util.concurrent.TimeUnit;
 

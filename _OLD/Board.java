@@ -1,12 +1,10 @@
+package _OLD;
 // 13/01/2023 - Pedro Marín Sanchis
-
-// Contains a cell matrix.
-
-import Utils.StringUtils;
 
 import java.util.ArrayList;
 
-import Utils.ConsoleColors;
+import BattleshipCL.Utils.ConsoleColors;
+import BattleshipCL.Utils.StringUtils;
 
 public class Board {
     

@@ -1,3 +1,4 @@
+package _OLD;
 // 18/01/2023 Pedro Marín Sanchis
 
 public class EnemyAI extends Player{

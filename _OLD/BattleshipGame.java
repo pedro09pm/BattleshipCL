@@ -1,10 +1,11 @@
+package _OLD;
 // 13/01/2023 - Pedro Marín Sanchis
 
 // BATTLESHIP COMMAND-LINE EDITION V0
 
 import java.util.Scanner;
 
-import Utils.*;
+import BattleshipCL.Utils.*;
 
 public class BattleshipGame {
 

@@ -1,3 +1,4 @@
+package _OLD;
 /* 13/01/2023 - Pedro Marín Sanchis
 
 BoardView stores knowledge of another board. The whole point is to be able to have many instaces of a viewer
@@ -6,8 +7,8 @@ point of the game.)
 
 */
 
-import Utils.StringUtils;
-import Utils.ConsoleColors;
+import BattleshipCL.Utils.ConsoleColors;
+import BattleshipCL.Utils.StringUtils;
 
 public class BoardView extends Board {
 
