@@ -4,83 +4,13 @@ package _OLD;
 // BATTLESHIP COMMAND-LINE EDITION V0
 
 import java.util.Scanner;
-
 import BattleshipCL.Utils.*;
+import BattleshipCL.Game.*;
+import BattleshipCL.Game.Primitive.Ship;
 
 public class BattleshipGame {
 
-    private static final String MENU_TEXT = "          ┌┐ ┌─┐┌┬┐┌┬┐┬  ┌─┐┌─┐┬ ┬┬┌─┐          \n"+
-                                            "     ───  ├┴┐├─┤ │  │ │  ├┤ └─┐├─┤│├─┘  ───     \n"+
-                                            "────────  └─┘┴ ┴ ┴  ┴ ┴─┘└─┘└─┘┴ ┴┴┴    ────────\n"+
-                                            "           COMMAND-LINE EDITION V.0\n \n \n           Press ENTER to continue:";
-    private static final String VICTORY_TEXT = "\n"+"__      ___      _                   _         \n"+
-                                                    "\\ \\    / (_)    | |                 | |      \n"+
-                                                    " \\ \\  / / _  ___| |_ ___  _ __ _   _| |      \n"+
-                                                    "  \\ \\/ / | |/ __| __/ _ \\| '__| | | | |     \n"+
-                                                    "   \\  /  | | (__| || (_) | |  | |_| |_|       \n"+
-                                                    "    \\/   |_|\\___|\\__\\___/|_|   \\__, (_)   \n"+
-                                                    "                                __/ |          \n"+
-                                                    "                               |___/           \n"+
-                                                    "\n        ";
-    private static final String DEFEAT_TEXT = "\n"+
-                                                    " _____  ______ ______ ______       _______         \n"+
-                                                    "|  __ \\|  ____|  ____|  ____|   /\\|__   __|      \n"+
-                                                    "| |  | | |__  | |__  | |__     /  \\  | |          \n"+
-                                                    "| |  | |  __| |  __| |  __|   / /\\ \\ | |         \n"+
-                                                    "| |__| | |____| |    | |____ / ____ \\| |_ _ _     \n"+
-                                                    "|_____/|______|_|    |______/_/    \\_\\_(_|_|_)   \n"+
-                                                    "\n         ";
-    private static final String GOODBYE_TEXT = "\n"+
-                                                    " _______ _                 _                                   \n"+
-                                                    "|__   __| |               | |                                  \n"+
-                                                    "   | |  | |__   __ _ _ __ | | __  _   _  ___  _   _            \n"+
-                                                    "   | |  | '_ \\ / _` | '_ \\| |/ / | | | |/ _ \\| | | |        \n"+
-                                                    "   | |  | | | | (_| | | | |   <  | |_| | (_) | |_| |           \n"+
-                                                    "   |_|  |_| |_|\\__,_|_| |_|_|\\_\\  \\__, |\\___/ \\__,_|     \n"+
-                                                    " ______           _____  _         __/ |             _         \n"+
-                                                    "|  ____|         |  __ \\| |       |___(_)           | |       \n"+
-                                                    "| |__ ___  _ __  | |__) | | __ _ _   _ _ _ __   __ _| |        \n"+
-                                                    "|  __/ _ \\| '__| |  ___/| |/ _` | | | | | '_ \\ / _` | |      \n"+
-                                                    "| | | (_) | |    | |    | | (_| | |_| | | | | | (_| |_|        \n"+
-                                                    "|_|  \\___/|_|    |_|    |_|\\__,_|\\__, |_|_| |_|\\__, (_)    \n"+
-                                                    "                                  __/ |         __/ |          \n"+
-                                                    "                                 |___/         |___/           \n"+
-                                                    "\n                Press ENTER to quit:";                                               
-                                                                                                
-                                                
     private static Scanner inputValue = new Scanner(System.in);
-    private static final boolean RENDER_COLORS = true;
-    private static final String NO_COLOR_DEFAULT = "";
-
-    private static final int CLASSIC_MODE_BOARD_SIZE = 8;
-    private static final int CLASSIC_MODE_SHOT_COUNT = 30;
-    private static final int CPU_MODE_BOARD_SIZE = 10;
-
-    private static final Ship[] CLASSIC_MODE_FLEET = new Ship[] {
-                                                                new Ship(1,1),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1)
-                                                            };
-    private static final Ship[] CPU_MODE_FLEET = new Ship[] {
-                                                                new Ship(1,4),
-                                                                new Ship(1,4),
-                                                                new Ship(1,3),
-                                                                new Ship(1,3),
-                                                                new Ship(1,2),
-                                                                new Ship(1,2),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1),
-                                                                new Ship(1,1)
-                                                            };
-
 
     public static void main(String[] args) {
         TerminalUtils.hideCursor();
@@ -113,23 +43,23 @@ public class BattleshipGame {
 
     private static void showTitle() {
         TerminalUtils.cls();
-        StringUtils.revealString(MENU_TEXT, 10);
+        StringUtils.revealString(Cons.MENU_TEXT, 10);
         inputValue.nextLine();
     }
 
     private static void showVictory() {
         TerminalUtils.moveCursorToEnd();
-        if (RENDER_COLORS) {System.out.print(ConsoleColors.GREEN);}
-        StringUtils.revealString(VICTORY_TEXT, 5);
-        if (RENDER_COLORS) {System.out.print(ConsoleColors.RESET);}
+        if (Cons.RENDER_COLORS) {System.out.print(ConsoleColors.GREEN);}
+        StringUtils.revealString(Cons.VICTORY_TEXT, 5);
+        if (Cons.RENDER_COLORS) {System.out.print(ConsoleColors.RESET);}
         enterToContinue();
     }
 
     private static void showDefeat() {
         TerminalUtils.moveCursorToEnd();
-        if (RENDER_COLORS) {System.out.print(ConsoleColors.RED);}
-        StringUtils.revealString(DEFEAT_TEXT, 5);
-        if (RENDER_COLORS) {System.out.print(ConsoleColors.RESET);}
+        if (Cons.RENDER_COLORS) {System.out.print(ConsoleColors.RED);}
+        StringUtils.revealString(Cons.DEFEAT_TEXT, 5);
+        if (Cons.RENDER_COLORS) {System.out.print(ConsoleColors.RESET);}
         enterToContinue();
     }
 
@@ -141,7 +71,7 @@ public class BattleshipGame {
 
     private static void showExitMessage() {
         TerminalUtils.cls();
-        StringUtils.revealString(GOODBYE_TEXT, 5);
+        StringUtils.revealString(Cons.GOODBYE_TEXT, 5);
         inputValue.nextLine();
         TerminalUtils.cls();
     }
@@ -190,13 +120,13 @@ public class BattleshipGame {
 
     private static void playSingleplayer(boolean classicMode) {
 
-        String playerColor = NO_COLOR_DEFAULT;
-        String enemyColor = NO_COLOR_DEFAULT;
-        int boardSize = CPU_MODE_BOARD_SIZE;
+        String playerColor = Cons.NO_COLOR_DEFAULT;
+        String enemyColor = Cons.NO_COLOR_DEFAULT;
+        int boardSize = Cons.CPU_MODE_BOARD_SIZE;
         int shotNumber = 9999;
-        Ship[] fleet = CPU_MODE_FLEET;
+        Ship[] fleet = Cons.CPU_MODE_FLEET;
 
-        if (RENDER_COLORS && !classicMode) {
+        if (Cons.RENDER_COLORS && !classicMode) {
             if (!askUserForConfirmation("· Use default board color? [Y/N]: ")) {
                     playerColor = chooseColor();
                     enemyColor = ConsoleColors.RED;
@@ -204,13 +134,13 @@ public class BattleshipGame {
         }
 
         if (classicMode) {
-            fleet = CLASSIC_MODE_FLEET;
-            boardSize = CLASSIC_MODE_BOARD_SIZE;
-            shotNumber = CLASSIC_MODE_SHOT_COUNT;
+            fleet = Cons.CLASSIC_MODE_FLEET;
+            boardSize = Cons.CLASSIC_MODE_BOARD_SIZE;
+            shotNumber = Cons.CLASSIC_MODE_SHOT_COUNT;
         }
 
-        Player player = new Player(new Board(boardSize, boardSize, "YOUR FLEET", RENDER_COLORS, playerColor), RENDER_COLORS);
-        EnemyAI enemy = new EnemyAI(new Board(boardSize, boardSize, "ENEMY FLEET", RENDER_COLORS, enemyColor), RENDER_COLORS);
+        /*Player player = new Player(new Board(boardSize, boardSize, "YOUR FLEET", Constants.RENDER_COLORS, playerColor), Constants.RENDER_COLORS);
+        EnemyAI enemy = new EnemyAI(new Board(boardSize, boardSize, "ENEMY FLEET", Constants.RENDER_COLORS, enemyColor), Constants.RENDER_COLORS);*/
         enemy.getBoard().setBoardColor(ConsoleColors.RED);
 
         player.addBoardView(new BoardView(enemy.getBoard(), shotNumber));
@@ -233,10 +163,10 @@ public class BattleshipGame {
 
             TerminalUtils.cls();
             if (classicMode) {
-                player.doTurn(inputValue, RENDER_COLORS, true);
+                player.doTurn(inputValue, Cons.RENDER_COLORS, true);
             } else {
-                player.showBoard(inputValue, RENDER_COLORS);
-                player.doTurn(inputValue, RENDER_COLORS, false);
+                player.showBoard(inputValue, Cons.RENDER_COLORS);
+                player.doTurn(inputValue, Cons.RENDER_COLORS, false);
                 enemy.doTurn();
             }
 
@@ -253,7 +183,7 @@ public class BattleshipGame {
 
         int allowedTries = 100;
 
-        ships = cloneShipArray(ships);
+        ships = Ship.cloneShipArray(ships);
         
         boolean allShipsPlaced = false;
 
@@ -291,18 +221,6 @@ public class BattleshipGame {
 
             }
         }
-    }
-
-    private static Ship[] cloneShipArray(Ship[] ships) {
-
-        Ship[] shipsClone = new Ship[ships.length];
-
-        for (int i = 0; i < ships.length; i++) {
-            shipsClone[i] = ships[i].clone();
-        }
-
-        return shipsClone;
-
     }
 
     private static String chooseColor() {

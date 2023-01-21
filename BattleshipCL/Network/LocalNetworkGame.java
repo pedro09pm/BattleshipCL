@@ -1,4 +1,7 @@
 package BattleshipCL.Network;
-public class LocalNetworkGame {
+
+import BattleshipCL.Game.Game;
+
+public class LocalNetworkGame extends Game {
     
 }

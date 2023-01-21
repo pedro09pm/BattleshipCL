@@ -1,9 +1,6 @@
-package BattleshipCL;
+package BattleshipCL.Game.Primitive;
 
 import java.util.ArrayList;
-import java.util.Map;
-
-import BattleshipCL.Cell.CellType;
 import BattleshipCL.Utils.StringUtils;
 
 public class Board {
@@ -20,10 +17,12 @@ public class Board {
     private ArrayList<Ship> ships = new ArrayList<Ship>();
 
     public Board(String boardName, String boardColor) {
+
         this.cells = new Cell[MIN_ROWS][MIN_COLUMNS]; // Row, Column.
         this.boardName = boardName;
         this.boardColor = boardColor;
         populateCells();
+
     }
 
     public Board(int rows, int columns, String boardName, String boardColor) {
@@ -42,14 +41,17 @@ public class Board {
     }
 
     public void populateCells() { // Fills cells array with Cell objects.
+
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells[0].length; j++){
                 cells[i][j] = new Cell();
             }
         } 
+
     }
 
-    private String toString() {
+    public String toString() {
+
         String[] alphabeticalIndexingArray = generateAlphabeticalIndexingArray(getColumnNumber());
         String[] numericalIndexingArray = generateNumericalIndexingArray(getRowNumber());
         String[] cellStringArray = generateCellStringArray();
@@ -67,6 +69,11 @@ public class Board {
         for (int i = 0; i < combinedArrays.length - alphabeticalIndexingArray.length - 1; i++) {
             combinedArrays[i] = cellStringArray[i-1] + numericalIndexingArray[i-1];
         }
+
+        combinedArrays = StringUtils.padToSameLength(combinedArrays, ' ');
+        combinedArrays[0] = " ".repeat((combinedArrays[1].length() / 2) - (boardName.length() - boardName.length() / 2)) + boardName;
+
+        return StringUtils.stringArrayToString(combinedArrays);
 
     }
 
@@ -107,6 +114,10 @@ public class Board {
 
         return StringUtils.surroundStringArrayWithBox(cellStringArray);
 
+    }
+
+    public int getBoardToStringLength() {
+        return ((getColumnNumber() * 3) + 2);
     }
 
     public boolean addShip(Ship ship, int row, int column) {
@@ -180,9 +191,8 @@ public class Board {
     }
 
     public void surroundShipWithCell(int row, int column, Cell.CellType cellType) { // Turns all cells around input coordinates into SAFETY or EMPTY (depending on "add boolean").
-        // Move to upper left corner
     
-        row--;
+        row--; // Move to upper left corner.
         column--;
 
         for (int i = 0; i < 3; i++) {
@@ -194,6 +204,11 @@ public class Board {
                 }
             }
         }
+
+    }
+
+    public boolean isShipCell(int row, int column) {
+        return cells[row][column].isShip();
     }
 
     public boolean isCellInBounds(int row, int column) {
@@ -201,9 +216,7 @@ public class Board {
     }
 
     public boolean canPlaceShipCell(int row, int column) {
-
         return (isCellInBounds(row, column) && cells[row][column].canPlaceShip());
-
     }
 
     public int getAliveShipNumber() {
@@ -218,6 +231,7 @@ public class Board {
     }
 
     public boolean isShipAlive(Ship ship) {
+
         for (int i = 0; i < ship.getHeight(); i++) {
             for (int j = 0; j < ship.getWidth(); j++) {
                 if (cells[ship.getRow() + i][ship.getColumn() + j].isShip()) {
@@ -226,6 +240,22 @@ public class Board {
             }
         }
         return false;
+
+    }
+
+    public int[] parseCoordinates(String string) {
+
+        int[] coordinates = new int[]{0,0};
+
+        if (StringUtils.removeNonNumbers(string) == null || StringUtils.removeNonLetters(string).toUpperCase() == null) {
+            return coordinates;
+        }
+
+        coordinates[0] = Integer.parseInt("0" + StringUtils.removeNonNumbers(string));
+        coordinates[1] = StringUtils.ALPHABET_STRING.indexOf(StringUtils.removeNonLetters(string).toUpperCase());
+
+        return coordinates;
+
     }
 
     public String getBoardName() {

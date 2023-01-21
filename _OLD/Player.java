@@ -17,7 +17,7 @@ public class Player {
         this.name = name;
     }
 
-    public Player(Board board, boolean RENDER_COLORS) {
+    public Player(Board board) {
         this.board = board;
         this.name = board.getBoardName();
     }

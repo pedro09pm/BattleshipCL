@@ -1,4 +1,4 @@
-package BattleshipCL;
+package BattleshipCL.Game.Primitive;
 
 import BattleshipCL.Utils.ConsoleColors;
 

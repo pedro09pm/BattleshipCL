@@ -1,4 +1,4 @@
-package BattleshipCL;
+package BattleshipCL.Game.Primitive;
 
 public class Ship {
     
@@ -65,6 +65,18 @@ public class Ship {
 
     public void setColumn(int column) {
         this.column = column;
+    }
+
+    public static Ship[] cloneShipArray(Ship[] ships) {
+
+        Ship[] shipsClone = new Ship[ships.length];
+
+        for (int i = 0; i < ships.length; i++) {
+            shipsClone[i] = ships[i].clone();
+        }
+
+        return shipsClone;
+
     }
 
 }
