@@ -20,7 +20,7 @@ public class BoardView extends Board {
 
     public BoardView(Board oriniginalBoard, int shotNumber) {
 
-        super(oriniginalBoard.getRowNumber(), oriniginalBoard.getColumnNumber(), oriniginalBoard.getBoardName(), oriniginalBoard.boardColor);
+        super(oriniginalBoard.getRowNumber(), oriniginalBoard.getColumnNumber(), oriniginalBoard.getBoardName());
         this.originalBoard = oriniginalBoard;
         this.shotsLeft = shotNumber;
 

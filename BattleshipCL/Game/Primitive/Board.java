@@ -11,21 +11,19 @@ public class Board {
     final private int MIN_COLUMNS = 8;
 
     private String boardName;
-    protected String boardColor;
 
     protected Cell[][] cells;
     private ArrayList<Ship> ships = new ArrayList<Ship>();
 
-    public Board(String boardName, String boardColor) {
+    public Board(String boardName) {
 
         this.cells = new Cell[MIN_ROWS][MIN_COLUMNS]; // Row, Column.
         this.boardName = boardName;
-        this.boardColor = boardColor;
         populateCells();
 
     }
 
-    public Board(int rows, int columns, String boardName, String boardColor) {
+    public Board(int rows, int columns, String boardName) {
         
         if (rows >= MAX_ROWS) {rows = MAX_ROWS;}
         if (columns >= MAX_COLUMNS) {columns = MAX_COLUMNS;}
@@ -36,7 +34,6 @@ public class Board {
         this.cells = new Cell[rows][columns]; // Row, Column.
         populateCells();
         this.boardName = boardName;
-        this.boardColor = boardColor;
 
     }
 
@@ -58,20 +55,22 @@ public class Board {
 
         String[] combinedArrays = new String[alphabeticalIndexingArray.length + cellStringArray.length + 1]; // + 1 for Name Tag.
 
+        
         for (int i = 0; i < combinedArrays.length; i++) { // Set all elements as empty String instead of NULL.
             combinedArrays[i] = "";
         }
         
-        for (int i = 0; i < numericalIndexingArray.length; i++) {
-            combinedArrays[i+1] = numericalIndexingArray[i];
+        for (int i = 0; i < alphabeticalIndexingArray.length; i++) {
+            combinedArrays[i+1] = alphabeticalIndexingArray[i];
         }
 
         for (int i = 0; i < combinedArrays.length - alphabeticalIndexingArray.length - 1; i++) {
-            combinedArrays[i] = cellStringArray[i-1] + numericalIndexingArray[i-1];
+            combinedArrays[i+alphabeticalIndexingArray.length+1] = cellStringArray[i] + numericalIndexingArray[i];
         }
 
         combinedArrays = StringUtils.padToSameLength(combinedArrays, ' ');
-        combinedArrays[0] = " ".repeat((combinedArrays[1].length() / 2) - (boardName.length() - boardName.length() / 2)) + boardName;
+        
+        combinedArrays[0] = " ".repeat(((combinedArrays[1].length() / 2) - (boardName.length() / 2)) - (numericalIndexingArray[0].length() / 2)) + boardName; // To center the name.
 
         return StringUtils.stringArrayToString(combinedArrays);
 
@@ -212,7 +211,7 @@ public class Board {
     }
 
     public boolean isCellInBounds(int row, int column) {
-        return (row < getRowNumber() && column < getColumnNumber());
+        return (row < getRowNumber() && column < getColumnNumber() && row > 0 && column > 0);
     }
 
     public boolean canPlaceShipCell(int row, int column) {
@@ -264,14 +263,6 @@ public class Board {
 
     public void setBoardName(String boardName) {
         this.boardName = boardName;
-    }
-
-    public String getBoardColor() {
-        return boardColor;
-    }
-
-    public void setBoardColor(String boardColor) {
-        this.boardColor = boardColor;
     }
 
     public int getColumnNumber() {

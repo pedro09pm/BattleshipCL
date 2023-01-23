@@ -9,21 +9,23 @@ public class LocalPlayer extends Player {
 
 	private Scanner inputValue;
 
-	public LocalPlayer(String name, String boardColor, Scanner inputValue) {
+	public LocalPlayer(String name, String playerColor, Scanner inputValue) {
 
-		super(name, boardColor);
+		super(name, playerColor);
 		this.inputValue = inputValue;
 
 	}
 
-	public LocalPlayer(Board board, String boardColor, Scanner inputValue) {
+	public LocalPlayer(Board board, String playerColor, Scanner inputValue) {
 
-		super(board, boardColor);
+		super(board, playerColor);
 		this.inputValue = inputValue;
 
 	}
 
 	public int[] getNextShot(BoardView board) {
+		
+		System.out.println(board.formatBoard(new String[]{"ENTER FIRE COORDINATES: ","SHOTS LEFT: " + board.getShotsLeft()}, true));
 
 		int[] coordinates = new int[] { 0, 0 };
 		String userInput;
@@ -41,7 +43,7 @@ public class LocalPlayer extends Player {
 
 	public void showBoard() {
 
-		// TODO: Whole method :/
+		System.out.println(super.getBoard().toString());
 
 	}
 

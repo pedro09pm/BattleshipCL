@@ -5,12 +5,12 @@ import BattleshipCL.Game.Primitive.BoardView;
 
 public class CPUPlayer extends Player {
 
-    public CPUPlayer(String name, String boardColor) {
-        super(name, boardColor);
+    public CPUPlayer(String name, String playerColor) {
+        super(name, playerColor);
     }
 
-    public CPUPlayer(Board board, String boardColor) {
-        super(board, boardColor);
+    public CPUPlayer(Board board, String playerColor) {
+        super(board, playerColor);
     }
 
     public int[] getNextShot(BoardView board) {
@@ -34,7 +34,7 @@ public class CPUPlayer extends Player {
 
     public void showBoard() {
         
-        
+        // DO NOTHING.
     
     }
     

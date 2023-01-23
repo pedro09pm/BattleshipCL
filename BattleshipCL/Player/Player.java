@@ -10,20 +10,26 @@ abstract public class Player {
 	private Board board;
 	protected ArrayList<BoardView> boardViews = new ArrayList<>();
 	private String name;
+	protected String playerColor = "";
 
-	public Player(String name, String boardColor) {
+	public Player(String name, String playerColor) {
 
-		this.board = new Board(name, boardColor);
+		this.board = new Board(name);
+		this.playerColor = playerColor;
 		this.name = name;
 
 	}
 
-	public Player(Board board, String boardColor) {
+	public Player(Board board, String playerColor) {
 
 		this.board = board;
-		this.board.setBoardColor(boardColor);
+		this.playerColor = playerColor;
 		this.name = board.getBoardName();
 
+	}
+
+	public boolean isAlive() {
+		return (board.getAliveShipNumber() > 0);
 	}
 
 	public ArrayList<BoardView> getBoardViews() {
@@ -38,8 +44,14 @@ abstract public class Player {
 		return name;
 	}
 
+	public String getPlayerColor() {
+		return playerColor;
+	}
+
 	public void addBoardView(BoardView boardView) {
-		boardViews.add(boardView);
+		if (!boardViews.contains(boardView)) {
+			boardViews.add(boardView);
+		}
 	}
 
 	public void doTurn() {

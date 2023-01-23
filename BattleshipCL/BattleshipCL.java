@@ -9,6 +9,7 @@
 
 package BattleshipCL;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import BattleshipCL.Game.*;
 import BattleshipCL.Game.Primitive.*;
@@ -170,94 +171,14 @@ public class BattleshipCL {
 			shotNumber = Cons.CLASSIC_MODE_SHOT_COUNT;
 		}
 
-		/*
-		 * Player player = new Player(new Board(boardSize, boardSize, "YOUR FLEET",
-		 * Constants.RENDER_COLORS, playerColor), Constants.RENDER_COLORS);
-		 * EnemyAI enemy = new EnemyAI(new Board(boardSize, boardSize, "ENEMY FLEET",
-		 * Constants.RENDER_COLORS, enemyColor), Constants.RENDER_COLORS);
-		 * enemy.getBoard().setBoardColor(ConsoleColors.RED);
-		 *
-		 * player.addBoardView(new BoardView(enemy.getBoard(), shotNumber));
-		 * enemy.addBoardView(new BoardView(player.getBoard(), shotNumber));
-		 *
-		 * placeShips(player.getBoard(), fleet);
-		 * placeShips(enemy.getBoard(), fleet);
-		 *
-		 * while (true) {
-		 *
-		 * if(enemy.getBoard().getAliveShipNumber() == 0) {
-		 * showVictory();
-		 * break;
-		 * }
-		 *
-		 * if(player.getBoardViews().get(0).getShotsLeft() == 0) {
-		 * showDefeat();
-		 * break;
-		 * }
-		 *
-		 * TerminalUtils.cls();
-		 * if (classicMode) {
-		 * player.doTurn(inputValue, RENDER_COLORS, true);
-		 * } else {
-		 * player.showBoard(inputValue, RENDER_COLORS);
-		 * player.doTurn(inputValue, RENDER_COLORS, false);
-		 * enemy.doTurn();
-		 * }
-		 *
-		 * }
-		 */
+		ArrayList<Player> players = new ArrayList<>();
+		
+		players.add(new LocalPlayer(new Board(boardSize, boardSize, "YOUR FLEET"), playerColor, inputValue));
+		players.add(new CPUPlayer(new Board(boardSize, boardSize, "ENEMY FLEET"), enemyColor));
 
-	}
+		Game localGame = new LocalGame(players, shotNumber, fleet);
+		localGame.startGame();
 
-	private static void placeShips(Board board, Ship[] ships) {
-		int rowNumber = board.getRowNumber();
-		int columnNumber = board.getColumnNumber();
-		int row;
-		int column;
-		boolean rotate;
-
-		int allowedTries = 100;
-
-		ships = Ship.cloneShipArray(ships);
-
-		boolean allShipsPlaced = false;
-
-		while (!allShipsPlaced) {
-
-			allShipsPlaced = true;
-			System.gc();
-
-			for (Ship i : ships) { // Reset for next try.
-				i.setPlaced(false);
-				board.removeShip(i);
-			}
-
-			for (Ship i : ships) {
-				for (int j = 0; j < allowedTries; j++) {
-
-					rotate = (Math.random()) > 0.5; // Boolean condition to rotate ships.
-
-					if (rotate) {
-						i.rotate();
-					}
-
-					row = (int) (Math.random() * (rowNumber));
-					column = (int) (Math.random() * (columnNumber));
-					board.addShip(i, row, column);
-
-				}
-			}
-
-			for (Ship i : ships) {
-
-				if (!i.isPlaced()) {
-
-					allShipsPlaced = false;
-
-				}
-
-			}
-		}
 	}
 
 	private static String chooseColor() {
