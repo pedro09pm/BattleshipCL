@@ -52,13 +52,13 @@ public final class Cons {
 
 	public static final Ship[] CLASSIC_MODE_FLEET = new Ship[] {
 			new Ship(1, 1),
+			/*new Ship(1, 1),
 			new Ship(1, 1),
 			new Ship(1, 1),
 			new Ship(1, 1),
 			new Ship(1, 1),
 			new Ship(1, 1),
-			new Ship(1, 1),
-			new Ship(1, 1),
+			new Ship(1, 1),*/
 			new Ship(1, 1),
 			new Ship(1, 1)
 	};

@@ -37,5 +37,15 @@ public class CPUPlayer extends Player {
         // DO NOTHING.
     
     }
+
+    public void showVictory() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void showDefeat() {
+        // TODO Auto-generated method stub
+        
+    }
     
 }

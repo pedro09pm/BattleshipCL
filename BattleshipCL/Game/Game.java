@@ -33,12 +33,16 @@ abstract public class Game {
 			turnNumber++;
 
 			for(int i = 0; i < players.size(); i++) {
-				players.get(i).doTurn();
 				winCondition = checkWinCondition();
+				if (players.get(i).isAlive()) {
+					players.get(i).doTurn();
+				} else {
+					players.get(i).showDefeat();
+				}
 			}
 		}
 
-		// TODO: After game.
+		showAfterGame();
 
 	}
 
@@ -52,9 +56,17 @@ abstract public class Game {
 			}
 		}
 
-		return (alivePlayerCount == 1);
+		return (alivePlayerCount <= 1);
 
 	}
+
+	private void showAfterGame() {
+        for(int i = 0; i < players.size(); i++) {
+			if (players.get(i).isAlive()) {
+				players.get(i).showVictory();
+			}
+		}
+    }
 
 	public void addBoardViewsToPlayers() {
 
@@ -62,7 +74,11 @@ abstract public class Game {
 
 		for(int i = 0; i < players.size(); i++) {
 			for(int j = 0; j < players.size(); j++) {
-				players.get(i).addBoardView(new BoardView(players.get(j).getBoard(), shotNumber));
+				if (!(players.get(j).getBoard().equals(players.get(i).getBoard()))) {
+
+					players.get(i).addBoardView(new BoardView(players.get(j).getBoard(), shotNumber));
+
+				}
 			}
 		}
 	}
@@ -123,7 +139,4 @@ abstract public class Game {
 			}
 		}
 	}
-
-	abstract protected void doTurn();
-
 }

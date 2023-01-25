@@ -31,6 +31,7 @@ public class BoardView extends Board {
         shotsLeft--;
 
         if (!originalBoard.isCellInBounds(row, column)) {
+            shotsMade++;
             return false;
         }
 
@@ -70,37 +71,17 @@ public class BoardView extends Board {
         }
 
     }
-
-    public String formatBoard(String[] message, Boolean addStats) {
-
-        String boardString = super.toString();
-        String messageString = StringUtils.stringArrayToString(formatMessageToBoardSize(message));
-
-        if (addStats) {boardString = addStatisticsToBoardString(boardString);}
-
-        return boardString + "\n" + messageString;
-
-    }
-
-    public String[] formatMessageToBoardSize(String[] string) {
-        
-        string = StringUtils.padToSameLength(string, ' ');
-        int boardLength = super.getBoardToStringLength();
-
-        if (string[0].length() < boardLength) {
-            StringUtils.appendToStringArray(string, " ".repeat(boardLength - string[0].length()));
-        }
-
-        return StringUtils.surroundStringArrayWithBox(string);
-
+    
+    public String formatBoard(String[] message) {
+        return addStatisticsToBoardString(super.addMessageToBoardString(message));
     }
 
     private String addStatisticsToBoardString(String boardString) {
 
         String[] boardStringArray = boardString.split("\n");
-        boardStringArray[5] = boardStringArray[5] + " > Ships left: " + (originalBoard.getAliveShipNumber());
-        boardStringArray[6] = boardStringArray[6] + " > Shots made: " + getShotsMade();
-        boardStringArray[7] = boardStringArray[7] + " > Shots hit: " + getShotsHit();
+        boardStringArray[5] = boardStringArray[5] + " > SHIPS LEFT : " + (originalBoard.getAliveShipNumber());
+        boardStringArray[6] = boardStringArray[6] + " > SHOTS MADE : " + getShotsMade();
+        boardStringArray[7] = boardStringArray[7] + " > SHOTS HIT  : " + getShotsHit();
 
         return StringUtils.stringArrayToString(StringUtils.padToSameLength(boardStringArray, ' '));
 

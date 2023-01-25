@@ -16,5 +16,17 @@ public class LocalNetworkGame extends Game {
 
         
     }
+
+    protected void showAfterGame() {
+
+		for(int i = 0; i < players.size(); i++) {
+			for(int j = 0; j < players.size(); j++) {
+                if (players.get(i).isAlive()) {
+                    players.get(i).showVictory();
+                }
+			}
+		}
+        
+    }
     
 }

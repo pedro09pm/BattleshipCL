@@ -23,13 +23,21 @@ public class BattleshipCL {
 	public static boolean RENDER_COLORS = false;
 
 	public static void main(String[] args) {
+		test();
 		parseArgs(args);
 		if (askUserForConfirmation("PLAY IN COLOR? [Y/N]: ")) {
 			RENDER_COLORS = true;
 		}
+
+		menu();
+
 		TerminalUtils.hideCursor();
 		showTitle();
 		menu(); // <-- HAS A WHILE (TRUE) LOOP, MAIN PROGRAM LOOP IS HERE.
+	}
+
+	private static void test() {
+		
 	}
 
 	private static void parseArgs(String[] args) {
@@ -69,30 +77,6 @@ public class BattleshipCL {
 		TerminalUtils.cls();
 		StringUtils.revealString(Cons.MENU_TEXT, 10);
 		inputValue.nextLine();
-	}
-
-	private static void showVictory() {
-		TerminalUtils.moveCursorToEnd();
-		if (RENDER_COLORS) {
-			System.out.print(ConsoleColors.GREEN);
-		}
-		StringUtils.revealString(Cons.VICTORY_TEXT, 5);
-		if (RENDER_COLORS) {
-			System.out.print(ConsoleColors.RESET);
-		}
-		enterToContinue();
-	}
-
-	private static void showDefeat() {
-		TerminalUtils.moveCursorToEnd();
-		if (RENDER_COLORS) {
-			System.out.print(ConsoleColors.RED);
-		}
-		StringUtils.revealString(Cons.DEFEAT_TEXT, 5);
-		if (RENDER_COLORS) {
-			System.out.print(ConsoleColors.RESET);
-		}
-		enterToContinue();
 	}
 
 	private static void showLegend() {
@@ -158,11 +142,11 @@ public class BattleshipCL {
 		int shotNumber = 9999;
 		Ship[] fleet = Cons.CPU_MODE_FLEET;
 
-		if (RENDER_COLORS && !classicMode) {
-			if (!askUserForConfirmation("· Use default board color? [Y/N]: ")) {
+		if (RENDER_COLORS) {
+			if (!classicMode && !askUserForConfirmation("· Use default board color? [Y/N]: ")) {
 				playerColor = chooseColor();
-				enemyColor = ConsoleColors.RED;
 			}
+			enemyColor = ConsoleColors.RED;
 		}
 
 		if (classicMode) {
@@ -173,11 +157,12 @@ public class BattleshipCL {
 
 		ArrayList<Player> players = new ArrayList<>();
 		
-		players.add(new LocalPlayer(new Board(boardSize, boardSize, "YOUR FLEET"), playerColor, inputValue));
+		players.add(new LocalPlayer(new Board(boardSize, boardSize, "YOUR FLEET"), playerColor, inputValue, RENDER_COLORS, classicMode));
 		players.add(new CPUPlayer(new Board(boardSize, boardSize, "ENEMY FLEET"), enemyColor));
 
 		Game localGame = new LocalGame(players, shotNumber, fleet);
 		localGame.startGame();
+		enterToContinue();
 
 	}
 

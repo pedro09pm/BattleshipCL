@@ -72,7 +72,7 @@ public class Board {
         
         combinedArrays[0] = " ".repeat(((combinedArrays[1].length() / 2) - (boardName.length() / 2)) - (numericalIndexingArray[0].length() / 2)) + boardName; // To center the name.
 
-        return StringUtils.stringArrayToString(combinedArrays);
+        return StringUtils.stringArrayToString(StringUtils.padToSameLength(combinedArrays, ' '));
 
     }
 
@@ -116,7 +116,28 @@ public class Board {
     }
 
     public int getBoardToStringLength() {
-        return ((getColumnNumber() * 3) + 2);
+        return toString().split("\n")[0].length();
+    }
+
+    public String addMessageToBoardString(String[] message) {
+
+        String boardString = this.toString();
+        String messageString = StringUtils.stringArrayToString(formatMessageToBoardSize(message));
+        return boardString + "\n" + messageString;
+
+    }
+
+    public String[] formatMessageToBoardSize(String[] string) {
+        
+        string = StringUtils.padToSameLength(string, ' ');
+        int boardLength = getBoardToStringLength();
+
+        if (string[0].length() < boardLength) {
+            StringUtils.appendToStringArray(string, " ".repeat(boardLength - string[0].length()-2));
+        }
+
+        return StringUtils.surroundStringArrayWithBox(string);
+
     }
 
     public boolean addShip(Ship ship, int row, int column) {
@@ -211,7 +232,7 @@ public class Board {
     }
 
     public boolean isCellInBounds(int row, int column) {
-        return (row < getRowNumber() && column < getColumnNumber() && row > 0 && column > 0);
+        return (row < getRowNumber() && column < getColumnNumber() && row >= 0 && column >= 0);
     }
 
     public boolean canPlaceShipCell(int row, int column) {
@@ -245,13 +266,16 @@ public class Board {
     public int[] parseCoordinates(String string) {
 
         int[] coordinates = new int[]{0,0};
+        string = string.toUpperCase();
 
-        if (StringUtils.removeNonNumbers(string) == null || StringUtils.removeNonLetters(string).toUpperCase() == null) {
+        if (StringUtils.removeNonNumbers(string).equals("") || StringUtils.removeNonLetters(string).toUpperCase().equals("") || string.equals("")) {
             return coordinates;
         }
 
-        coordinates[0] = Integer.parseInt("0" + StringUtils.removeNonNumbers(string));
+        coordinates[0] = Integer.parseInt(StringUtils.removeNonNumbers(string));
         coordinates[1] = StringUtils.ALPHABET_STRING.indexOf(StringUtils.removeNonLetters(string).toUpperCase());
+
+        if (coordinates[1] == -1) {coordinates[1] = 0;}
 
         return coordinates;
 

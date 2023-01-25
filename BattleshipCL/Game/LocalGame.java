@@ -10,10 +10,4 @@ public class LocalGame extends Game{
         super(players, shotNumber, fleet);
     }
 
-    protected void doTurn() {
-        for(int i = 0; i < players.size(); i++) {
-            players.get(i).doTurn();
-        }
-    }
-
 }

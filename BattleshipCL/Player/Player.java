@@ -59,6 +59,7 @@ abstract public class Player {
 		for (int i = 0; i < boardViews.size(); i++) {
 			if (boardViews.get(i).getShotsLeft() > 0) {
 
+				showBoard();
 				int[] coordinates = getNextShot(boardViews.get(i));
 				shoot(boardViews.get(i), coordinates[0], coordinates[1]);
 
@@ -70,6 +71,10 @@ abstract public class Player {
 	abstract public int[] getNextShot(BoardView boardView);
 
 	abstract public void showBoard();
+
+	abstract public void showVictory();
+
+	abstract public void showDefeat();
 
 	public static Boolean shoot(BoardView board, int row, int column) {
 		return board.revealCell(row, column);
