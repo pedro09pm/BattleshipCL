@@ -2,6 +2,7 @@ package BattleshipCL.Player;
 
 import java.util.Scanner;
 
+import BattleshipCL.Game.Colorizer;
 import BattleshipCL.Game.Cons;
 import BattleshipCL.Game.Primitive.Board;
 import BattleshipCL.Game.Primitive.BoardView;
@@ -39,10 +40,22 @@ public class LocalPlayer extends Player {
 		
 		TerminalUtils.cls();
 
-		System.out.println(board.formatBoard(new String[]{"ENTER FIRE COORDINATES: ","SHOTS LEFT: " + board.getShotsLeft()}));
+		String boardString = board.formatBoard(new String[]{"ENTER FIRE COORDINATES: ","SHOTS LEFT: " + board.getShotsLeft()});
+
+		if (RENDER_COLORS) {
+			System.out.println(Colorizer.colorizeBoard(board.getPlayerColor(), boardString));
+		} else {
+			System.out.println(boardString);
+		}
+
 		TerminalUtils.moveCursorUp(3);
 		TerminalUtils.moveCursorForward(25);
 
+		return inputShot(board);
+
+	}
+
+	private int[] inputShot(BoardView board) {
 		int[] coordinates = new int[] { 0, 0 };
 		String userInput;
 
@@ -54,7 +67,6 @@ public class LocalPlayer extends Player {
 		}
 
 		return board.parseCoordinates(userInput);
-
 	}
 
 	public void showBoard() {
@@ -65,9 +77,17 @@ public class LocalPlayer extends Player {
 		}
 
 		TerminalUtils.cls();
-		System.out.println(super.getBoard().addMessageToBoardString(new String[]{"ENTER TO CONTINUE: ", " "}));
+
+		String boardString = super.getBoard().addMessageToBoardString(new String[]{"ENTER TO CONTINUE: ", " "});
+		
+		if (RENDER_COLORS) {
+			System.out.println(Colorizer.colorizeBoard(playerColor, boardString));
+		} else {
+			System.out.println(boardString);
+		}
+
 		TerminalUtils.moveCursorUp(3);
-		TerminalUtils.moveCursorForward(19);
+		TerminalUtils.moveCursorForward(20);
 		inputValue.nextLine();
 
 	}

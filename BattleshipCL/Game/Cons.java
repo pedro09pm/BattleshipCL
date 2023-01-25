@@ -44,8 +44,6 @@ public final class Cons {
 			"                                 |___/         |___/           \n" +
 			"\n                Press ENTER to quit:";
 
-	public static final String NO_COLOR_DEFAULT = "";
-
 	public static final int CLASSIC_MODE_BOARD_SIZE = 8;
 	public static final int CLASSIC_MODE_SHOT_COUNT = 30;
 	public static final int CPU_MODE_BOARD_SIZE = 10;

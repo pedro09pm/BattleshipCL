@@ -76,7 +76,7 @@ abstract public class Game {
 			for(int j = 0; j < players.size(); j++) {
 				if (!(players.get(j).getBoard().equals(players.get(i).getBoard()))) {
 
-					players.get(i).addBoardView(new BoardView(players.get(j).getBoard(), shotNumber));
+					players.get(i).addBoardView(new BoardView(players.get(j).getBoard(), shotNumber, players.get(i).getPlayerColor()));
 
 				}
 			}

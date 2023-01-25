@@ -136,8 +136,8 @@ public class BattleshipCL {
 
 	private static void playSingleplayer(boolean classicMode) {
 
-		String playerColor = Cons.NO_COLOR_DEFAULT;
-		String enemyColor = Cons.NO_COLOR_DEFAULT;
+		String playerColor = ConsoleColors.WHITE;
+		String enemyColor = ConsoleColors.RED;
 		int boardSize = Cons.CPU_MODE_BOARD_SIZE;
 		int shotNumber = 9999;
 		Ship[] fleet = Cons.CPU_MODE_FLEET;
@@ -146,7 +146,6 @@ public class BattleshipCL {
 			if (!classicMode && !askUserForConfirmation("· Use default board color? [Y/N]: ")) {
 				playerColor = chooseColor();
 			}
-			enemyColor = ConsoleColors.RED;
 		}
 
 		if (classicMode) {

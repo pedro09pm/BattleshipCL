@@ -13,16 +13,19 @@ import BattleshipCL.Utils.StringUtils;
 public class BoardView extends Board {
 
     protected Board originalBoard;
+
+    private String playerColor;
     
     private int shotsMade;
     private int shotsHit;
     private int shotsLeft;
 
-    public BoardView(Board oriniginalBoard, int shotNumber) {
+    public BoardView(Board oriniginalBoard, int shotNumber, String playerColor) {
 
         super(oriniginalBoard.getRowNumber(), oriniginalBoard.getColumnNumber(), oriniginalBoard.getBoardName());
         this.originalBoard = oriniginalBoard;
         this.shotsLeft = shotNumber;
+        this.playerColor = playerColor;
 
     }
 
@@ -99,5 +102,8 @@ public class BoardView extends Board {
         return shotsLeft;
     }
 
+    public String getPlayerColor() {
+        return playerColor;
+    }
     
 }
