@@ -3,8 +3,20 @@ package BattleshipCL.Game.Primitive;
 import java.util.ArrayList;
 import BattleshipCL.Utils.StringUtils;
 
+/**
+ *
+ * The Board class is used to store all ORIGINAL board information. It stores an ArrayList of Ship objects aswell as a bidimensional array of Cell objects.
+ *
+ * @see Ship
+ * @see Cell
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.1
+ * @since 13/01/2023
+ *
+ */
 public class Board {
-    
+
     final private int MAX_ROWS = 50;
     final private int MIN_ROWS = 8;
     final private int MAX_COLUMNS = StringUtils.ALPHABET.length;
@@ -24,7 +36,7 @@ public class Board {
     }
 
     public Board(int rows, int columns, String boardName) {
-        
+
         if (rows >= MAX_ROWS) {rows = MAX_ROWS;}
         if (columns >= MAX_COLUMNS) {columns = MAX_COLUMNS;}
 
@@ -43,7 +55,7 @@ public class Board {
             for (int j = 0; j < cells[0].length; j++){
                 cells[i][j] = new Cell();
             }
-        } 
+        }
 
     }
 
@@ -55,11 +67,11 @@ public class Board {
 
         String[] combinedArrays = new String[alphabeticalIndexingArray.length + cellStringArray.length + 1]; // + 1 for Name Tag.
 
-        
+
         for (int i = 0; i < combinedArrays.length; i++) { // Set all elements as empty String instead of NULL.
             combinedArrays[i] = "";
         }
-        
+
         for (int i = 0; i < alphabeticalIndexingArray.length; i++) {
             combinedArrays[i+1] = alphabeticalIndexingArray[i];
         }
@@ -69,7 +81,7 @@ public class Board {
         }
 
         combinedArrays = StringUtils.padToSameLength(combinedArrays, ' ');
-        
+
         combinedArrays[0] = " ".repeat(((combinedArrays[1].length() / 2) - (boardName.length() / 2)) - (numericalIndexingArray[0].length() / 2)) + boardName; // To center the name.
 
         return StringUtils.stringArrayToString(StringUtils.padToSameLength(combinedArrays, ' '));
@@ -128,7 +140,7 @@ public class Board {
     }
 
     public String[] formatMessageToBoardSize(String[] string) {
-        
+
         string = StringUtils.padToSameLength(string, ' ');
         int boardLength = getBoardToStringLength();
 
@@ -141,7 +153,7 @@ public class Board {
     }
 
     public boolean addShip(Ship ship, int row, int column) {
-        
+
         boolean canAddShip = true;
 
         if (!ship.isPlaced()) {
@@ -153,25 +165,25 @@ public class Board {
                     }
                 }
             }
-    
+
             if (canAddShip) {
-                
+
                 ships.add(ship);
-                for (int i = 0; i < ship.getHeight(); i++) { 
+                for (int i = 0; i < ship.getHeight(); i++) {
                     for (int j = 0; j < ship.getWidth(); j++) {
                         cells[row + i][column + j].setCellType(Cell.CellType.SHIP);
                         addSafezone(row + i, column + j);
                     }
                 }
-    
+
                 ship.setRow(row);
                 ship.setColumn(column);
                 ship.setPlaced(true);
 
                 //System.out.println("Placed on board " + boardName + " ship h" + ship.getHeight() + " w " + ship.getWidth() + " row " + row + " col " + column);
-    
+
             }
-    
+
             return canAddShip;
 
         } else {
@@ -179,7 +191,7 @@ public class Board {
             return false;
 
         }
-    
+
     }
 
     public void removeShip(Ship ship) {
@@ -188,16 +200,16 @@ public class Board {
 
             int row = ship.getRow();
             int column = ship.getColumn();
-    
-            for (int i = 0; i < ship.getHeight(); i++) { 
+
+            for (int i = 0; i < ship.getHeight(); i++) {
                 for (int j = 0; j < ship.getWidth(); j++) {
                     cells[row + i][column + j].setCellType(Cell.CellType.EMPTY);
                     removeSafezone(row + i, column + j);
                 }
             }
-    
+
             ships.remove(ship);
-            
+
         }
 
     }
@@ -211,7 +223,7 @@ public class Board {
     }
 
     public void surroundShipWithCell(int row, int column, Cell.CellType cellType) { // Turns all cells around input coordinates into SAFETY or EMPTY (depending on "add boolean").
-    
+
         row--; // Move to upper left corner.
         column--;
 
@@ -240,7 +252,7 @@ public class Board {
     }
 
     public int getAliveShipNumber() {
-        
+
         int shipAliveNumber = 0;
 
         for (int i = 0; i < ships.size(); i++) {
@@ -296,5 +308,5 @@ public class Board {
     public int getRowNumber() {
         return cells.length;
     }
-    
+
 }

@@ -1,7 +1,16 @@
 package BattleshipCL.Game.Primitive;
 
+/**
+ *
+ * Ship class, it's properties are Height / Width and Row / Column where it is placed.
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.1
+ * @since 13/01/2023
+ *
+ */
 public class Ship {
-    
+
     private boolean placed = false;
     private int height;
     private int width;
@@ -34,6 +43,9 @@ public class Ship {
         return width;
     }
 
+	/**
+	 * Switches Height and Width attributes.
+	 */
     public void rotate() {
         if (!placed) {
             int flip;

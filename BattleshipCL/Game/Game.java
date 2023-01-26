@@ -7,6 +7,15 @@ import BattleshipCL.Game.Primitive.BoardView;
 import BattleshipCL.Game.Primitive.Ship;
 import BattleshipCL.Player.*;
 
+/**
+ *
+ * Abstract class that defines game behaviour.
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.0
+ * @since 22/01/2023
+ *
+ */
 abstract public class Game {
 
 	protected ArrayList<Player> players = new ArrayList<>();
@@ -29,7 +38,7 @@ abstract public class Game {
 		boolean winCondition = false;
 
 		while (!winCondition) {
-			
+
 			turnNumber++;
 
 			for(int i = 0; i < players.size(); i++) {

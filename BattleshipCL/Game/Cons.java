@@ -2,13 +2,24 @@ package BattleshipCL.Game;
 
 import BattleshipCL.Game.Primitive.Ship;
 
+/**
+ *
+ * Cons is a class where CONSTANT values reside. For example: Title, victory and defeat Strings. It also defines the game's fleets, which are Ship object arrays. (See Ship).
+ *
+ * @see Ship
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.0
+ * @since 22/01/2023
+ *
+ */
 public final class Cons {
 
 	public static final String MENU_TEXT = "\n" +
 			"          ┌┐ ┌─┐┌┬┐┌┬┐┬  ┌─┐┌─┐┬ ┬┬┌─┐          \n" +
 			"     ───  ├┴┐├─┤ │  │ │  ├┤ └─┐├─┤│├─┘  ───     \n" +
 			"────────  └─┘┴ ┴ ┴  ┴ ┴─┘└─┘└─┘┴ ┴┴┴    ────────\n" +
-			"           COMMAND-LINE EDITION V.0\n \n \n           Press ENTER to continue:";
+			"           COMMAND-LINE EDITION V.1\n \n \n           Press ENTER to continue:";
 	public static final String VICTORY_TEXT = "\n" +
 			"__      ___      _                   _         \n" +
 			"\\ \\    / (_)    | |                 | |      \n" +

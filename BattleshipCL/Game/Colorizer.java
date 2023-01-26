@@ -3,6 +3,17 @@ package BattleshipCL.Game;
 import BattleshipCL.Game.Primitive.Cell;
 import BattleshipCL.Utils.ConsoleColors;
 
+/**
+ *
+ * Class used to add ASCII color codes to Strings for terminal display.
+ *
+ * @see ConsoleColors
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.0
+ * @since 22/01/2023
+ *
+ */
 public class Colorizer {
 
     public static String colorizeBoard(String playerColor, String board) {

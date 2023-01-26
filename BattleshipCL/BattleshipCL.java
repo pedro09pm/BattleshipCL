@@ -1,12 +1,3 @@
-//          13/01/2023 - Pedro Marín Sanchis
-
-/*
- *            ┌┐ ┌─┐┌┬┐┌┬┐┬  ┌─┐┌─┐┬ ┬┬┌─┐
- *       ───  ├┴┐├─┤ │  │ │  ├┤ └─┐├─┤│├─┘  ───
- *  ────────  └─┘┴ ┴ ┴  ┴ ┴─┘└─┘└─┘┴ ┴┴┴    ────────
- *              COMMAND-LINE EDITION V.0
- */
-
 package BattleshipCL;
 
 import java.util.ArrayList;
@@ -17,27 +8,37 @@ import BattleshipCL.Network.*;
 import BattleshipCL.Player.*;
 import BattleshipCL.Utils.*;
 
+/**
+ * <pre>
+ *            ┌┐ ┌─┐┌┬┐┌┬┐┬  ┌─┐┌─┐┬ ┬┬┌─┐
+ *       ───  ├┴┐├─┤ │  │ │  ├┤ └─┐├─┤│├─┘  ───
+ *  ────────  └─┘┴ ┴ ┴  ┴ ┴─┘└─┘└─┘┴ ┴┴┴    ────────
+ *              COMMAND-LINE EDITION V.1
+ * <pre/>
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.1
+ * @since 13/01/2023
+ *
+ */
 public class BattleshipCL {
 
 	private static Scanner inputValue = new Scanner(System.in);
 	public static boolean RENDER_COLORS = false;
 
+	/**
+	 *
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		test();
 		parseArgs(args);
 		if (askUserForConfirmation("PLAY IN COLOR? [Y/N]: ")) {
 			RENDER_COLORS = true;
 		}
 
-		menu();
-
 		TerminalUtils.hideCursor();
 		showTitle();
 		menu(); // <-- HAS A WHILE (TRUE) LOOP, MAIN PROGRAM LOOP IS HERE.
-	}
-
-	private static void test() {
-		
 	}
 
 	private static void parseArgs(String[] args) {
@@ -53,13 +54,14 @@ public class BattleshipCL {
 		inputValue.nextLine();
 	}
 
-	/*
+	/* @deprecated
 	 * private static void showMessage(String message) {
 	 * TerminalUtils.cls();
 	 * System.out.println(message);
 	 * enterToContinue();
 	 * }
 	 *
+	 * @deprecated
 	 * private static String askUserForString(String message) {
 	 * TerminalUtils.cls();
 	 * System.out.print(message);;
@@ -67,6 +69,10 @@ public class BattleshipCL {
 	 * }
 	 */
 
+	/**
+	 * @param message Message to be displayed to the user.
+	 * @return TRUE upon user entering "Y" or "y". Needs to use a class defined Scanner.
+	 */
 	private static boolean askUserForConfirmation(String message) {
 		TerminalUtils.cls();
 		System.out.print(message);
@@ -90,6 +96,18 @@ public class BattleshipCL {
 		StringUtils.revealString(Cons.GOODBYE_TEXT, 5);
 		inputValue.nextLine();
 		TerminalUtils.cls();
+	}
+
+	private static void showMenuText() {
+		TerminalUtils.cls();
+
+		System.out.println(StringUtils.surroundStringWithBox(
+			" 1.- Play Classic | 2.- Play Against CPU | 3.- Local Network Multiplayer | 4.- Quit Game "));
+		System.out.print(StringUtils.surroundStringWithBox(
+			" ENTER CHOICE:" + " ".repeat(11)));
+
+		TerminalUtils.moveCursorUp(1);
+		TerminalUtils.moveCursorBack(11);
 	}
 
 	private static void menu() {
@@ -122,18 +140,6 @@ public class BattleshipCL {
 
 	}
 
-	private static void showMenuText() {
-		TerminalUtils.cls();
-
-		System.out.println(StringUtils.surroundStringWithBox(
-				" 1.- Play Classic | 2.- Play Against CPU | 3.- Local Network Multiplayer | 4.- Quit Game "));
-		System.out.print(StringUtils.surroundStringWithBox(
-				" ENTER CHOICE:" + " ".repeat(11)));
-
-		TerminalUtils.moveCursorUp(1);
-		TerminalUtils.moveCursorBack(11);
-	}
-
 	private static void playSingleplayer(boolean classicMode) {
 
 		String playerColor = ConsoleColors.WHITE;
@@ -155,7 +161,7 @@ public class BattleshipCL {
 		}
 
 		ArrayList<Player> players = new ArrayList<>();
-		
+
 		players.add(new LocalPlayer(new Board(boardSize, boardSize, "YOUR FLEET"), playerColor, inputValue, RENDER_COLORS, classicMode));
 		players.add(new CPUPlayer(new Board(boardSize, boardSize, "ENEMY FLEET"), enemyColor));
 

@@ -2,8 +2,20 @@ package BattleshipCL.Game.Primitive;
 
 import BattleshipCL.Utils.ConsoleColors;
 
+/**
+ *
+ * The cell class is a primitive for the Board class. It has en enum called CellType that determines the state of a cell.
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.1
+ * @since 13/01/2023
+ *
+ */
 public class Cell {
 
+	/**
+	 * <p>CellType enum: Determines the state of a cell (Empty, Ship, Miss...). It's values have the attributes "cellString" and "color" that hold the text representation of the cell and the ASCII color code of the cell respectively.<p/>
+	 */
     public static enum CellType {
 
         SHIP("███", ConsoleColors.WHITE),

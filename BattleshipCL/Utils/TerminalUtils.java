@@ -4,6 +4,15 @@
 
 package BattleshipCL.Utils;
 
+/**
+ *
+ * Collection of methods useful for the formatting of terminal output.
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.1
+ * @since 13/01/2023
+ *
+ */
 public class TerminalUtils {
 
     public static void showCursor() {
@@ -32,7 +41,7 @@ public class TerminalUtils {
 
     public static void moveCursorToEnd() {
         moveCursorDown(250);
-        moveCursorForward(250);        
+        moveCursorForward(250);
     }
 
     public static void cls() {
@@ -47,5 +56,5 @@ public class TerminalUtils {
     public static void clsFromCursorToBeginning() {
         System.out.print("\033[1J");
     }
-    
+
 }

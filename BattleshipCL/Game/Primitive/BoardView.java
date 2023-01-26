@@ -1,21 +1,22 @@
-/* 13/01/2023 - Pedro Marín Sanchis
-
-BoardView stores knowledge of another board. The whole point is to be able to have many instaces of a viewer
-for a single board (Suppose a 3v3. One player shouldn't know the other's shots, since fog of war is the whole
-point of the game.)
-
-*/
-
 package BattleshipCL.Game.Primitive;
 
 import BattleshipCL.Utils.StringUtils;
 
+/**
+ *
+ * BoardView stores knowledge of another board. The whole point is to be able to have many instaces of a viewer for a single board (Suppose a 3v3. One player shouldn't know the other's shots, since fog of war is the whole point of the game.)
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.1
+ * @since 13/01/2023
+ *
+ */
 public class BoardView extends Board {
 
     protected Board originalBoard;
 
     private String playerColor;
-    
+
     private int shotsMade;
     private int shotsHit;
     private int shotsLeft;
@@ -48,7 +49,7 @@ public class BoardView extends Board {
             return true;
 
         }
-        
+
         if (cells[row][column].isHitShip()) {
             cells[row][column].setCellType(Cell.CellType.HIT);
             shotsMade++;
@@ -74,7 +75,7 @@ public class BoardView extends Board {
         }
 
     }
-    
+
     public String formatBoard(String[] message) {
         return addStatisticsToBoardString(super.addMessageToBoardString(message));
     }
@@ -105,5 +106,5 @@ public class BoardView extends Board {
     public String getPlayerColor() {
         return playerColor;
     }
-    
+
 }
