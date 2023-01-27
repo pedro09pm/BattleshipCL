@@ -19,10 +19,10 @@ import BattleshipCL.Player.*;
 abstract public class Game {
 
 	protected ArrayList<Player> players = new ArrayList<>();
-	private Ship[] fleet;
-	private int turnNumber = 0;
-	private int shotNumber = 0;
-	private boolean gameInProgressFlag = false;
+	protected Ship[] fleet;
+	protected int turnNumber = 0;
+	protected int shotNumber = 0;
+	protected boolean gameInProgressFlag = false;
 
 	public Game(ArrayList players, int shotNumber, Ship[] fleet) {
 		this.players = players;
@@ -32,50 +32,11 @@ abstract public class Game {
 		addShipsToPlayers();
 	}
 
-	public void startGame() {
+	abstract public void startGame();
 
-		gameInProgressFlag = true;
-		boolean winCondition = false;
+	abstract protected boolean checkWinCondition();
 
-		while (!winCondition) {
-
-			turnNumber++;
-
-			for(int i = 0; i < players.size(); i++) {
-				winCondition = checkWinCondition();
-				if (players.get(i).isAlive()) {
-					players.get(i).doTurn();
-				} else {
-					players.get(i).showDefeat();
-				}
-			}
-		}
-
-		showAfterGame();
-
-	}
-
-	private boolean checkWinCondition() {
-
-		int alivePlayerCount = 0;
-
-		for(int i = 0; i < players.size(); i++) {
-			if (players.get(i).isAlive()) {
-				alivePlayerCount++;
-			}
-		}
-
-		return (alivePlayerCount <= 1);
-
-	}
-
-	private void showAfterGame() {
-        for(int i = 0; i < players.size(); i++) {
-			if (players.get(i).isAlive()) {
-				players.get(i).showVictory();
-			}
-		}
-    }
+	abstract protected void showAfterGame();
 
 	public void addBoardViewsToPlayers() {
 

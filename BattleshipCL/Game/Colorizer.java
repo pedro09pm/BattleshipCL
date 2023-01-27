@@ -22,7 +22,7 @@ public class Colorizer {
 
         for (int i = 0; i < Cell.CellType.values().length; i++) {
             Cell.CellType cell = Cell.CellType.values()[i];
-            board.replaceAll(cell.toString(), cell.getCellColor() + cell.toString() + playerColor);
+            board = board.replaceAll(cell.toString(), (cell.getColoredCell() + playerColor));
         }
 
         return board + ConsoleColors.RESET;

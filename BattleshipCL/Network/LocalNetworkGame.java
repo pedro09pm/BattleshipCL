@@ -5,6 +5,17 @@ import java.util.ArrayList;
 import BattleshipCL.Game.Game;
 import BattleshipCL.Game.Primitive.Ship;
 
+/**
+ *
+ * Defines local network game behaviour.
+ *
+ * @see Game
+ * 
+ * @author Pedro Marín Sanchis
+ * @version V.0
+ * @since 22/01/2023
+ *
+ */
 public class LocalNetworkGame extends Game {
 
     public LocalNetworkGame(ArrayList players, int shotNumber, Ship[] fleet) {
@@ -27,6 +38,16 @@ public class LocalNetworkGame extends Game {
 			}
 		}
         
+    }
+
+    public void startGame() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    protected boolean checkWinCondition() {
+        // TODO Auto-generated method stub
+        return false;
     }
     
 }

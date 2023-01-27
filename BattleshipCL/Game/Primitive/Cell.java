@@ -38,7 +38,7 @@ public class Cell {
             return cellString;
         }
 
-        public String getCellColor() {
+        public String getColoredCell() {
             return color;
         }
 

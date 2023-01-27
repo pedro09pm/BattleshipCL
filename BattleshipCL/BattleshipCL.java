@@ -26,16 +26,9 @@ public class BattleshipCL {
 	private static Scanner inputValue = new Scanner(System.in);
 	public static boolean RENDER_COLORS = false;
 
-	/**
-	 *
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		parseArgs(args);
-		if (askUserForConfirmation("PLAY IN COLOR? [Y/N]: ")) {
-			RENDER_COLORS = true;
-		}
-
+		RENDER_COLORS = true;
 		TerminalUtils.hideCursor();
 		showTitle();
 		menu(); // <-- HAS A WHILE (TRUE) LOOP, MAIN PROGRAM LOOP IS HERE.
