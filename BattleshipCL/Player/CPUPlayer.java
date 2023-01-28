@@ -14,38 +14,29 @@ public class CPUPlayer extends Player {
     }
 
     public int[] getNextShot(BoardView board) {
-
         int[] coordinates = new int[]{0,0};
-
         coordinates[0] = (int) (Math.random()*(board.getRowNumber()));
         coordinates[1] = (int) (Math.random()*(board.getColumnNumber()));
-
         /*
-         * 
-         * 
+         *
+         *
          * TODO: Real Enemy AI
-         * 
-         * 
+         *
+         *
          */
-
         return coordinates;
-        
     }
 
     public void showBoard() {
-        
         // DO NOTHING.
-    
     }
 
     public void showVictory() {
         // TODO Auto-generated method stub
-        
     }
 
     public void showDefeat() {
         // TODO Auto-generated method stub
-        
     }
-    
+
 }

@@ -13,19 +13,15 @@ abstract public class Player {
 	protected String playerColor = "";
 
 	public Player(String name, String playerColor) {
-
 		this.board = new Board(name);
 		this.playerColor = playerColor;
 		this.name = name;
-
 	}
 
 	public Player(Board board, String playerColor) {
-
 		this.board = board;
 		this.playerColor = playerColor;
 		this.name = board.getBoardName();
-
 	}
 
 	public boolean isAlive() {
@@ -48,6 +44,14 @@ abstract public class Player {
 		return playerColor;
 	}
 
+	public int getTotalShotsLeft() {
+		int totalShotsLeft = 0;
+		for (int i = 0; i < boardViews.size(); i++) {
+			totalShotsLeft = totalShotsLeft + boardViews.get(i).getShotsLeft();
+		}
+		return totalShotsLeft;
+	}
+
 	public void addBoardView(BoardView boardView) {
 		if (!boardViews.contains(boardView)) {
 			boardViews.add(boardView);
@@ -55,17 +59,17 @@ abstract public class Player {
 	}
 
 	public void doTurn() {
-
 		for (int i = 0; i < boardViews.size(); i++) {
 			if (boardViews.get(i).getShotsLeft() > 0) {
-
 				showBoard();
 				int[] coordinates = getNextShot(boardViews.get(i));
 				shoot(boardViews.get(i), coordinates[0], coordinates[1]);
-
 			}
 		}
+	}
 
+	public static Boolean shoot(BoardView board, int row, int column) {
+		return board.revealCell(row, column);
 	}
 
 	abstract public int[] getNextShot(BoardView boardView);
@@ -75,9 +79,5 @@ abstract public class Player {
 	abstract public void showVictory();
 
 	abstract public void showDefeat();
-
-	public static Boolean shoot(BoardView board, int row, int column) {
-		return board.revealCell(row, column);
-	}
 
 }

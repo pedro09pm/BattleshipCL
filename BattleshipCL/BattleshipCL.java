@@ -93,34 +93,27 @@ public class BattleshipCL {
 
 	private static void showMenuText() {
 		TerminalUtils.cls();
-
 		System.out.println(StringUtils.surroundStringWithBox(
-			" 1.- Play Classic | 2.- Play Against CPU | 3.- Local Network Multiplayer | 4.- Quit Game "));
+			" 1.- Play Classic | 2.- Play Against CPU | 3.- Show Legend | 4.- Quit Game "));
 		System.out.print(StringUtils.surroundStringWithBox(
 			" ENTER CHOICE:" + " ".repeat(11)));
-
 		TerminalUtils.moveCursorUp(1);
 		TerminalUtils.moveCursorBack(11);
 	}
 
 	private static void menu() {
-
 		while (true) {
 			showMenuText();
 			switch (inputValue.nextLine()) {
 				case "1":
-					showLegend();
 					playSingleplayer(true);
 					break;
-
 				case "2":
-					showLegend();
 					playSingleplayer(false);
 					break;
-
 				case "3":
+					showLegend();
 					break;
-
 				case "4":
 					showExitMessage();
 					inputValue.close(); // Close Scanner before exiting.
@@ -130,43 +123,34 @@ public class BattleshipCL {
 					break;
 			}
 		}
-
 	}
 
 	private static void playSingleplayer(boolean classicMode) {
-
 		String playerColor = ConsoleColors.WHITE;
 		String enemyColor = ConsoleColors.RED;
 		int boardSize = Cons.CPU_MODE_BOARD_SIZE;
 		int shotNumber = 9999;
 		Ship[] fleet = Cons.CPU_MODE_FLEET;
-
+		ArrayList<Player> players = new ArrayList<>();
 		if (RENDER_COLORS) {
 			if (!classicMode && !askUserForConfirmation("· Use default board color? [Y/N]: ")) {
 				playerColor = chooseColor();
 			}
 		}
-
 		if (classicMode) {
 			fleet = Cons.CLASSIC_MODE_FLEET;
 			boardSize = Cons.CLASSIC_MODE_BOARD_SIZE;
 			shotNumber = Cons.CLASSIC_MODE_SHOT_COUNT;
 		}
-
-		ArrayList<Player> players = new ArrayList<>();
-
 		players.add(new LocalPlayer(new Board(boardSize, boardSize, "YOUR FLEET"), playerColor, inputValue, RENDER_COLORS, classicMode));
 		players.add(new CPUPlayer(new Board(boardSize, boardSize, "ENEMY FLEET"), enemyColor));
-
 		Game localGame = new LocalGame(players, shotNumber, fleet);
 		localGame.startGame();
 		enterToContinue();
-
 	}
 
 	private static String chooseColor() {
 		while (true) {
-
 			TerminalUtils.cls();
 			System.out.println(StringUtils.surroundStringWithBox("      COLOR  TABLE      "));
 			System.out.println("    · 1: " + ConsoleColors.RED + "███" + ConsoleColors.RESET + " Red.\n" +
@@ -177,10 +161,8 @@ public class BattleshipCL {
 								"    · 6: " + ConsoleColors.CYAN + "███" + ConsoleColors.RESET + " Cyan.\n" +
 								"    · 7: " + ConsoleColors.WHITE + "███" + ConsoleColors.RESET + " White.");
 			System.out.print(StringUtils.surroundStringWithBox(" CHOSE A COLOR:         "));
-
 			TerminalUtils.moveCursorUp(1);
 			TerminalUtils.moveCursorBack(9);
-
 			switch (inputValue.nextLine()) {
 				case "1":
 					TerminalUtils.cls();
@@ -203,7 +185,6 @@ public class BattleshipCL {
 				case "7":
 					TerminalUtils.cls();
 					return ConsoleColors.WHITE;
-
 			}
 		}
 	}

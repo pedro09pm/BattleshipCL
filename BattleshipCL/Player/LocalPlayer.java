@@ -15,21 +15,17 @@ public class LocalPlayer extends Player {
 	private boolean classic;
 
 	public LocalPlayer(String name, String playerColor, Scanner inputValue, boolean RENDER_COLORS, boolean classic) {
-
 		super(name, playerColor);
 		this.inputValue = inputValue;
 		this.RENDER_COLORS = RENDER_COLORS;
 		this.classic = classic;
-
 	}
 
 	public LocalPlayer(Board board, String playerColor, Scanner inputValue, boolean RENDER_COLORS, boolean classic) {
-
 		super(board, playerColor);
 		this.inputValue = inputValue;
 		this.RENDER_COLORS = RENDER_COLORS;
 		this.classic = classic;
-
 	}
 
 	public boolean isClassic() {
@@ -37,59 +33,49 @@ public class LocalPlayer extends Player {
 	}
 
 	public int[] getNextShot(BoardView board) {
-		
+		String boardString;
 		TerminalUtils.cls();
-
-		String boardString = board.formatBoard(new String[]{"ENTER FIRE COORDINATES: ","SHOTS LEFT: " + board.getShotsLeft()});
-
+		if (classic) {
+			boardString = board.formatBoard(new String[]{" ENTER FIRE COORDINATES: "," SHOTS LEFT: " + board.getShotsLeft()});
+		} else {
+			boardString = board.formatBoard(new String[]{" ENTER FIRE COORDINATES: ", " "});
+		}
 		if (RENDER_COLORS) {
 			System.out.println(Colorizer.colorizeBoard(board.getPlayerColor(), boardString));
 		} else {
 			System.out.println(boardString);
 		}
-
 		TerminalUtils.moveCursorUp(3);
-		TerminalUtils.moveCursorForward(25);
-
+		TerminalUtils.moveCursorForward(26);
 		return inputShot(board);
-
 	}
 
 	private int[] inputShot(BoardView board) {
 		int[] coordinates = new int[] { 0, 0 };
 		String userInput;
-
 		userInput = inputValue.nextLine();
-
-		if (userInput.equalsIgnoreCase("dev_r")) { // Ruins the fun for the players. Makes life easy for developers...
+		if (userInput.equalsIgnoreCase("sprv")) { // Ruins the fun for the players. Makes life easy for developers...
 			board.revealAll();
 			return coordinates;
 		}
-
 		return board.parseCoordinates(userInput);
 	}
 
 	public void showBoard() {
-
+		String boardString;
+		TerminalUtils.cls();
 		if (classic) {
-			TerminalUtils.cls();
 			return;
 		}
-
-		TerminalUtils.cls();
-
-		String boardString = super.getBoard().addMessageToBoardString(new String[]{"ENTER TO CONTINUE: ", " "});
-		
+		boardString = super.getBoard().addMessageToBoardString(new String[]{" ENTER TO CONTINUE: ", " "});
 		if (RENDER_COLORS) {
 			System.out.println(Colorizer.colorizeBoard(playerColor, boardString));
 		} else {
 			System.out.println(boardString);
 		}
-
 		TerminalUtils.moveCursorUp(3);
-		TerminalUtils.moveCursorForward(20);
+		TerminalUtils.moveCursorForward(21);
 		inputValue.nextLine();
-
 	}
 
 	public void showVictory() {

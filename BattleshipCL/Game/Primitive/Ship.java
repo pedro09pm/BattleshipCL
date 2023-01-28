@@ -26,7 +26,6 @@ public class Ship {
     public Ship(int height, int width) {
         if (height <= 0) {height = 1;}
         if (width <= 0) {width = 1;}
-
         this.height = height;
         this.width = width;
     }
@@ -80,15 +79,11 @@ public class Ship {
     }
 
     public static Ship[] cloneShipArray(Ship[] ships) {
-
         Ship[] shipsClone = new Ship[ships.length];
-
         for (int i = 0; i < ships.length; i++) {
             shipsClone[i] = ships[i].clone();
         }
-
         return shipsClone;
-
     }
 
 }

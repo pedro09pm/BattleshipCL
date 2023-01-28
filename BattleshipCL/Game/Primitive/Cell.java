@@ -28,10 +28,8 @@ public class Cell {
         private final String color;
 
         CellType(String cellString, String color) {
-
             this.cellString = cellString;
             this.color = color + cellString + ConsoleColors.RESET;
-
         }
 
         public String toString() {
