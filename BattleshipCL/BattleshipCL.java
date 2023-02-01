@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import BattleshipCL.Game.*;
 import BattleshipCL.Game.Primitive.*;
-import BattleshipCL.Network.*;
+//import BattleshipCL.Network.*;
 import BattleshipCL.Player.*;
 import BattleshipCL.Utils.*;
 
@@ -28,7 +28,6 @@ public class BattleshipCL {
 
 	public static void main(String[] args) {
 		parseArgs(args);
-		RENDER_COLORS = true;
 		TerminalUtils.hideCursor();
 		showTitle();
 		menu(); // <-- HAS A WHILE (TRUE) LOOP, MAIN PROGRAM LOOP IS HERE.
@@ -127,7 +126,7 @@ public class BattleshipCL {
 
 	private static void playSingleplayer(boolean classicMode) {
 		String playerColor = ConsoleColors.WHITE;
-		String enemyColor = ConsoleColors.RED;
+		String enemyColor = ConsoleColors.WHITE;
 		int boardSize = Cons.CPU_MODE_BOARD_SIZE;
 		int shotNumber = 9999;
 		Ship[] fleet = Cons.CPU_MODE_FLEET;
