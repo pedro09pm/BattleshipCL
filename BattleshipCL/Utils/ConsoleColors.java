@@ -1,21 +1,26 @@
-// W3 Schools
+package BattleshipCL.Utils;
 
-// Source: https://www.w3schools.blog/ansi-colors-java
-
-package Utils;
-
+/**
+ *
+ * Class that contains ASCII color codes as Strings. Source: https://www.w3schools.blog/ansi-colors-java
+ *
+ * @author W3 Schools, Pedro Marín Sanchis
+ * @version V.0
+ * @since 13/01/2023
+ *
+ */
 public class ConsoleColors {
     // Reset
     public static final String RESET = "\033[0m";  // Text Reset
 
     // Decorations
-    
+
     public static final String REVERSED = "\u001b[7m"; // Reversed Text
 
     // 256 Extended
 
     public static final String GREY_8 = "\u001b[38;5;8m"; // Grey 8
- 
+
     // Regular Colors
     //public static final String BLACK = "\033[0;30m";   // BLACK
     public static final String RED = "\033[0;31m";     // RED
@@ -25,9 +30,9 @@ public class ConsoleColors {
     public static final String PURPLE = "\033[0;35m";  // PURPLE
     public static final String CYAN = "\033[0;36m";    // CYAN
     public static final String WHITE = "\033[0;37m";   // WHITE
- 
+
     /*
-    
+
     // Bold
     public static final String BLACK_BOLD = "\033[1;30m";  // BLACK
     public static final String RED_BOLD = "\033[1;31m";    // RED
@@ -37,7 +42,7 @@ public class ConsoleColors {
     public static final String PURPLE_BOLD = "\033[1;35m"; // PURPLE
     public static final String CYAN_BOLD = "\033[1;36m";   // CYAN
     public static final String WHITE_BOLD = "\033[1;37m";  // WHITE
- 
+
     // Underline
     public static final String BLACK_UNDERLINED = "\033[4;30m";  // BLACK
     public static final String RED_UNDERLINED = "\033[4;31m";    // RED
@@ -47,7 +52,7 @@ public class ConsoleColors {
     public static final String PURPLE_UNDERLINED = "\033[4;35m"; // PURPLE
     public static final String CYAN_UNDERLINED = "\033[4;36m";   // CYAN
     public static final String WHITE_UNDERLINED = "\033[4;37m";  // WHITE
- 
+
     // Background
     public static final String BLACK_BACKGROUND = "\033[40m";  // BLACK
     public static final String RED_BACKGROUND = "\033[41m";    // RED
@@ -57,7 +62,7 @@ public class ConsoleColors {
     public static final String PURPLE_BACKGROUND = "\033[45m"; // PURPLE
     public static final String CYAN_BACKGROUND = "\033[46m";   // CYAN
     public static final String WHITE_BACKGROUND = "\033[47m";  // WHITE
- 
+
     // High Intensity
     public static final String BLACK_BRIGHT = "\033[0;90m";  // BLACK
     public static final String RED_BRIGHT = "\033[0;91m";    // RED
@@ -77,7 +82,7 @@ public class ConsoleColors {
     public static final String PURPLE_BOLD_BRIGHT = "\033[1;95m";// PURPLE
     public static final String CYAN_BOLD_BRIGHT = "\033[1;96m";  // CYAN
     public static final String WHITE_BOLD_BRIGHT = "\033[1;97m"; // WHITE
- 
+
     // High Intensity backgrounds
     public static final String BLACK_BACKGROUND_BRIGHT = "\033[0;100m";// BLACK
     public static final String RED_BACKGROUND_BRIGHT = "\033[0;101m";// RED
@@ -87,6 +92,6 @@ public class ConsoleColors {
     public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m"; // PURPLE
     public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";  // CYAN
     public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";   // WHITE
-    
+
     */
 }

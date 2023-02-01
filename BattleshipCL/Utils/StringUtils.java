@@ -1,16 +1,23 @@
-// 13/01/2023 - Pedro Marín Sanchis
-
-package Utils;
+package BattleshipCL.Utils;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ *
+ * Collection of methods useful for the treatment of Strings.
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.1
+ * @since 13/01/2023
+ *
+ */
 public class StringUtils {
 
     final public static char[] ALPHABET = "abcdefghijklmnopqrstuvwxyz".toUpperCase().toCharArray();
     final public static String ALPHABET_STRING = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
 
     public static String[] surroundStringArrayWithBox(String[] stringArray) { // Should be fed a String array where each element is a pure string without any newline characters.
-        
+
         stringArray = padToSameLength(replaceInStringArray(stringArray, "\n", ""), ' ');
         String[] boxedStringArray = new String[stringArray.length + 2];
 

@@ -1,7 +1,16 @@
-// 18/01/2023 Pedro Marín Sanchis
+package BattleshipCL.Game.Primitive;
 
+/**
+ *
+ * Ship class, it's properties are Height / Width and Row / Column where it is placed.
+ *
+ * @author Pedro Marín Sanchis
+ * @version V.1
+ * @since 13/01/2023
+ *
+ */
 public class Ship {
-    
+
     private boolean placed = false;
     private int height;
     private int width;
@@ -17,7 +26,6 @@ public class Ship {
     public Ship(int height, int width) {
         if (height <= 0) {height = 1;}
         if (width <= 0) {width = 1;}
-
         this.height = height;
         this.width = width;
     }
@@ -34,6 +42,9 @@ public class Ship {
         return width;
     }
 
+	/**
+	 * Switches Height and Width attributes.
+	 */
     public void rotate() {
         if (!placed) {
             int flip;
@@ -67,4 +78,13 @@ public class Ship {
         this.column = column;
     }
 
+    public static Ship[] cloneShipArray(Ship[] ships) {
+        Ship[] shipsClone = new Ship[ships.length];
+        for (int i = 0; i < ships.length; i++) {
+            shipsClone[i] = ships[i].clone();
+        }
+        return shipsClone;
+    }
+
 }
+
